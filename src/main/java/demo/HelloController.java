@@ -7,11 +7,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class HelloController {
+	
 	@RequestMapping(
 			path="/hello", 
 			method = RequestMethod.GET,
 			produces = MediaType.APPLICATION_JSON_VALUE)
 	public HelloBoundary hello(){
-		return new HelloBoundary("hello world");
+		Helper help = new Helper();
+		return new HelloBoundary("Hello " + help.getTeamName());
 	}
 }
