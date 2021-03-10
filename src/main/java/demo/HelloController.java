@@ -14,6 +14,6 @@ public class HelloController {
 			produces = MediaType.APPLICATION_JSON_VALUE)
 	public HelloBoundary hello(){
 		Helper help = new Helper();
-		return new HelloBoundary("Hello! " + help.getTeamName());
+		return new HelloBoundary("Hello " + help.getTeamName());
 	}
 }
