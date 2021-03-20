@@ -4,6 +4,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.stream.IntStream;
 
 @RestController
 public class itemController {
@@ -33,16 +34,9 @@ public class itemController {
                            @PathVariable("itemId") int id,
                            @RequestBody ItemBoundry input) {
         //STUB implementation
-        int index = -1;
-        for (int i = 0; i < items.size(); i++) {
-            if (items.get(i).getItemId().getId() == id) {
-                index = i;
-                break;
-            }
-        }
+        int index = IntStream.range(0, items.size()).filter(i -> items.get(i).getItemId().getId() == id).findAny().orElse(-1);
         if (index != -1) {
-            items.remove(index);
-            items.add(index, input);
+            items.set(index, input);
         }
     }
 
@@ -65,7 +59,7 @@ public class itemController {
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ArrayList<ItemBoundry> getAllItem(@PathVariable("userSpace") String userSpace,
-                               @PathVariable("userEmail") String userEmail) {
+                                             @PathVariable("userEmail") String userEmail) {
         //STUB implementation
         return items;
     }
