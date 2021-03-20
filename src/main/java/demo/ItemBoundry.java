@@ -4,34 +4,33 @@ import java.util.Date;
 import java.util.HashMap;
 
 public class ItemBoundry {
-    private itemId itemId;
-    private String type;
+    private ItemId itemId;
+    private String type = "book";
     private String name;
     private boolean active;
-    private Date currentTimestamp;
+    private Date createdTimestamp;
     private createdBy createdBy;
     private location location;
     private HashMap<String, Object> itemAttributes;
 
     public ItemBoundry() {
-        this.currentTimestamp = new Date();
+        this.createdTimestamp = new Date();
         this.itemAttributes = new HashMap<>();
     }
 
-    public ItemBoundry(itemId itemId, String type, String name, boolean active, createdBy createdBy) {
+    public ItemBoundry(ItemId itemId, String name, boolean active, createdBy createdBy) {
         this();
         this.itemId = itemId;
-        this.type = type;
         this.name = name;
         this.active = active;
         this.createdBy = createdBy;
     }
 
-    public itemId getItemId() {
+    public ItemId getItemId() {
         return itemId;
     }
 
-    public void setItemId(itemId itemId) {
+    public void setItemId(ItemId itemId) {
         this.itemId = itemId;
     }
 
@@ -59,12 +58,12 @@ public class ItemBoundry {
         this.active = active;
     }
 
-    public Date getCurrentTimestamp() {
-        return currentTimestamp;
+    public Date getCreatedTimestamp() {
+        return createdTimestamp;
     }
 
-    public void setCurrentTimestamp(Date currentTimestamp) {
-        this.currentTimestamp = currentTimestamp;
+    public void setCreatedTimestamp(Date createdTimestamp) {
+        this.createdTimestamp = createdTimestamp;
     }
 
     public createdBy getCreatedBy() {

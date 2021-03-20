@@ -1,13 +1,13 @@
 package demo;
 
-public class itemId {
+public class ItemId {
 
     private String space;
     private int id;
 
-    public itemId(String space, int id) {
+    public ItemId(String space, int id) {
         this.space = space;
-        this.id = id;
+        this.id = id > 0 ? id : 99;
     }
 
     public String getSpace() {
