@@ -1,4 +1,4 @@
-package com.example.demo.sprint2;
+package demo;
 
 import java.util.Date;
 import java.util.HashMap;

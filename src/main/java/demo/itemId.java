@@ -1,4 +1,4 @@
-package com.example.demo.sprint2;
+package demo;
 
 public class itemId {
 
