@@ -5,7 +5,10 @@ public class userId {
     private String space;
     private String email;
 
-    public userId(String space, String email) {
+    public userId() {
+	}
+
+	public userId(String space, String email) {
         this.space = space;
         this.email = email;
     }

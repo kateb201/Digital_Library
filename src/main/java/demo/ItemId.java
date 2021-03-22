@@ -4,8 +4,14 @@ public class ItemId {
 
     private String space;
     private int id;
+    
+    
 
-    public ItemId(String space, int id) {
+    public ItemId() {
+	
+	}
+
+	public ItemId(String space, int id) {
         this.space = space;
         this.id = id > 0 ? id : 99;
     }
