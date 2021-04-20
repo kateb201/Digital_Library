@@ -66,7 +66,7 @@ public class OperationBoundary {
 	}
 
 
-	public void setCreatedTimestamp(Timestamp createdTimestamp) {
+	public void setCreatedTimestamp(Date createdTimestamp) {
 		this.createdTimestamp = createdTimestamp;
 	}
 
