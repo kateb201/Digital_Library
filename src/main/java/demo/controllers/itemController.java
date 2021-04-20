@@ -1,7 +1,12 @@
-package demo;
+package demo.controllers;
 
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+
+import demo.boundaries.ItemBoundry;
+import demo.boundaries.ItemId;
+import demo.boundaries.createdBy;
+import demo.boundaries.location;
 
 import java.util.ArrayList;
 import java.util.stream.IntStream;

@@ -1,4 +1,6 @@
-package demo;
+package demo.boundaries;
+
+import demo.controllers.userId;
 
 public class UserBoundary {
 	

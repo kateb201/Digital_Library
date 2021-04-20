@@ -1,4 +1,4 @@
-package demo;
+package demo.boundaries;
 
 public class location {
     private double lat;
