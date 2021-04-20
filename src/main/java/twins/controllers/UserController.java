@@ -1,4 +1,4 @@
-package demo.controllers;
+package twins.controllers;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import demo.boundaries.UserBoundary;
-import demo.boundaries.newUserDetails;
+import twins.boundaries.UserBoundary;
+import twins.boundaries.newUserDetails;
 
 
 @RestController

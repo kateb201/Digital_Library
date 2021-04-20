@@ -1,6 +1,6 @@
-package demo.boundaries;
+package twins.boundaries;
 
-import demo.controllers.userId;
+import twins.controllers.userId;
 
 public class UserBoundary {
 	

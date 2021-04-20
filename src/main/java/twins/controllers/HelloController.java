@@ -1,12 +1,12 @@
-package demo.controllers;
+package twins.controllers;
 
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import demo.Helper;
-import demo.boundaries.HelloBoundary;
+import twins.Helper;
+import twins.boundaries.HelloBoundary;
 
 @RestController
 public class HelloController {

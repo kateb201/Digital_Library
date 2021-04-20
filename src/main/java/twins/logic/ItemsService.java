@@ -1,4 +1,4 @@
-package demo.logic;
+package twins.logic;
 
 public interface ItemsService {
 

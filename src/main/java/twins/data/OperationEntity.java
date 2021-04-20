@@ -1,4 +1,4 @@
-package demo.data;
+package twins.data;
 
 public class OperationEntity {
 

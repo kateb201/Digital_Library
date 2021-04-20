@@ -1,4 +1,4 @@
-package demo.boundaries;
+package twins.boundaries;
 
 import java.sql.Timestamp;
 import java.util.Date;
@@ -19,7 +19,7 @@ public class OperationBoundary {
         this.itemAttributes = new HashMap<>();
     }
     
-    public OperationBoundary(operationId operationId, String type, demo.boundaries.item item, Date createdTimestamp,
+    public OperationBoundary(operationId operationId, String type, twins.boundaries.item item, Date createdTimestamp,
 			invokedBy invokedBy, HashMap<String, Object> itemAttributes) {
 		this();
 		this.operationId = operationId;

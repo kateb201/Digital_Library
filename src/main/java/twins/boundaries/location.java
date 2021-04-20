@@ -1,4 +1,4 @@
-package demo.boundaries;
+package twins.boundaries;
 
 public class location {
     private double lat;

@@ -1,12 +1,12 @@
-package demo.controllers;
+package twins.controllers;
 
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import demo.boundaries.ItemBoundry;
-import demo.boundaries.ItemId;
-import demo.boundaries.createdBy;
-import demo.boundaries.location;
+import twins.boundaries.ItemBoundry;
+import twins.boundaries.ItemId;
+import twins.boundaries.createdBy;
+import twins.boundaries.location;
 
 import java.util.ArrayList;
 import java.util.stream.IntStream;
