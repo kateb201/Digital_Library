@@ -2,32 +2,31 @@ package twins.logic;
 import twins.boundaries.*;
 import twins.data.*;
 import java.util.ArrayList;
-import java.util.Date;
+//import java.util.Date;
 import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+//import java.util.Optional;
+//import java.util.UUID;
 
-import javax.annotation.PostConstruct;
+//import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+//import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+//import org.springframework.transaction.annotation.Transactional;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+//import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
 public class OperationServiceImplementation implements OperationsService{
 
 	private OperationHandler operationHandler; 
-	private ObjectMapper jackson;
-	//private String dummy;
+
 		
 	@Autowired	
 	public OperationServiceImplementation(OperationHandler operationHandler) {
 		super();
 		this.operationHandler = operationHandler;
-		this.jackson = new ObjectMapper();
+		//this.jackson = new ObjectMapper();
 		}
 	
 	@Override
