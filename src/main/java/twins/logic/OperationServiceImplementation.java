@@ -30,6 +30,7 @@ public class OperationServiceImplementation implements OperationsService{
 	public Object invokeOperation(OperationBoundary operation) {
 		if (operation == null)
 			throw new RuntimeException("Operation attribute must not be null");
+		operation.setInvokedBy(new InvokedBy(operation.getOperationId().getSpace(), "123"));
 		OperationEntity entity = this.convertToEntity(operation);
 		entity.setId(UUID.randomUUID().toString());
 		entity.setCreatedTimestamp(new Date());
