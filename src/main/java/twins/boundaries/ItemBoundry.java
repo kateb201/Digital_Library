@@ -2,6 +2,7 @@ package twins.boundaries;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 
 public class ItemBoundry {
     private ItemId itemId;
@@ -11,7 +12,7 @@ public class ItemBoundry {
     private Date createdTimestamp;
     private CreatedBy createdBy;
     private Location location;
-    private HashMap<String, Object> itemAttributes;
+    private Map<String, Object> itemAttributes;
 
     public ItemBoundry() {
         this.createdTimestamp = new Date();
@@ -82,11 +83,11 @@ public class ItemBoundry {
         this.location = location;
     }
 
-    public HashMap<String, Object> getItemAttributes() {
+    public Map<String, Object> getItemAttributes() {
         return itemAttributes;
     }
 
-    public void setItemAttributes(HashMap<String, Object> itemAttributes) {
+    public void setItemAttributes(Map<String, Object> itemAttributes) {
         this.itemAttributes = itemAttributes;
     }
 }

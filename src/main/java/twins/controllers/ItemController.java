@@ -1,13 +1,20 @@
 package twins.controllers;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import twins.boundaries.ItemBoundry;
 import twins.boundaries.ItemId;
 import twins.boundaries.CreatedBy;
 import twins.boundaries.Location;
+import twins.logic.ItemsService;
 
+import java.util.List;
 import java.util.ArrayList;
 import java.util.stream.IntStream;
 
@@ -15,6 +22,12 @@ import java.util.stream.IntStream;
 public class ItemController {
 
     private ArrayList<ItemBoundry> items = new ArrayList<>();
+    private ItemsService itemService;
+    
+    @Autowired
+	public void setItemsService(ItemsService itemService) {
+		this.itemService = itemService;
+	}
 
     @RequestMapping(path = "/twins/items/{userSpace}/{userEmail}",
             method = RequestMethod.POST,
@@ -23,11 +36,9 @@ public class ItemController {
     public ItemBoundry createItem(@PathVariable("userSpace") String userSpace,
                                   @PathVariable("userEmail") String userEmail,
                                   @RequestBody ItemBoundry input) {
-        //STUB implementation
-        input.setCreatedBy(new CreatedBy(userSpace, userEmail));
-        input.setLocation(new Location());
-        items.add(input);
-        return input;
+        //create item
+    	return this.itemService.createItem(userSpace, userEmail, input);
+    	
     }
 
     @RequestMapping(path = "/twins/items/{userSpace}/{userEmail}/{itemSpace}/{itemId}",
@@ -38,11 +49,8 @@ public class ItemController {
                            @PathVariable("itemSpace") String itemSpace,
                            @PathVariable("itemId") String id,
                            @RequestBody ItemBoundry input) {
-        //STUB implementation
-        int index = IntStream.range(0, items.size()).filter(i -> items.get(i).getItemId().getId().equals(id)).findAny().orElse(-1);
-        if (index != -1) {
-            items.set(index, input);
-        }
+        this.itemService.updateItem(userSpace, userEmail, itemSpace, id, input);
+       
     }
 
     @RequestMapping(path = "/twins/items/{userSpace}/{userEmail}/{itemSpace}/{itemId}",
@@ -52,21 +60,19 @@ public class ItemController {
                                @PathVariable("userEmail") String userEmail,
                                @PathVariable("itemSpace") String itemSpace,
                                @PathVariable("itemId") String id) {
-        //STUB implementation
-        ItemBoundry item = items.stream().filter(i -> i.getItemId().getId().equals(id)).findAny().orElse(null);
-        if (item == null) {
-            return new ItemBoundry(new ItemId(userSpace, id), "", true, new CreatedBy(userSpace, userEmail));
-        }
-        return item;
+        //get Specific Item
+        
+        return this.itemService.getSpecificItem(userSpace, userEmail, itemSpace, id);
     }
 
     @RequestMapping(path = "/twins/items/{userSpace}/{userEmail}",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ArrayList<ItemBoundry> getAllItem(@PathVariable("userSpace") String userSpace,
+    public List<ItemBoundry> getAllItem(@PathVariable("userSpace") String userSpace,
                                              @PathVariable("userEmail") String userEmail) {
-        //STUB implementation
-        return items;
+        //get all Items
+    	List<ItemBoundry> allItems = this.itemService.getAllItems(userSpace, userEmail);
+        return allItems;
     }
 
 }
