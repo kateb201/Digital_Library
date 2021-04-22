@@ -1,20 +1,15 @@
 package twins.data;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Lob;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import java.util.Date;
-import java.util.HashMap;
 import javax.persistence.*;
 import twins.boundaries.*;
+import java.util.Date;
+import java.util.HashMap;
+
 /*
  * OPERATIONS_TABLE
- * operationId <PK>| Space | Type  
- * VARCHAR(255) | VARCHAR(255)
+ * operationId <PK>| Space | Type  | MESSAGE_TIMESTAMP | Item Attributes
+ * VARCHAR(255) | VARCHAR(255) | VARCHAR(255) | TIMESTAMP | CLOB
  *  */
+
 @Entity
 @Table(name = "OPERATIONS_TABLE")
 public class OperationEntity {
@@ -29,10 +24,10 @@ public class OperationEntity {
     }
     
     @Id
-    public int getId() {
+    public String getId() {
 		return operationId.getId();
 	}
-	public void setId(int id) {
+	public void setId(String id) {
 		operationId.setId(id);
 	}
 	public String getSpace() {
@@ -63,11 +58,11 @@ public class OperationEntity {
 	public void setItem(item item) {
 		this.item = item;
 	}
-	@Transient
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="MESSAGE_TIMESTAMP") //  set column name: MESSAGE_TIMESTAMP
 	public Date getCreatedTimestamp() {
 		return createdTimestamp;
 	}
-	@Transient
 	public void setCreatedTimestamp(Date createdTimestamp) {
 		this.createdTimestamp = createdTimestamp;
 	}
@@ -79,11 +74,11 @@ public class OperationEntity {
 	public void setInvokedBy(InvokedBy invokedBy) {
 		this.invokedBy = invokedBy;
 	}
-	@Transient
+	@Lob
 	public HashMap<String, Object> getItemAttributes() {
 		return itemAttributes;
 	}
-	@Transient
+	
 	public void setItemAttributes(HashMap<String, Object> itemAttributes) {
 		this.itemAttributes = itemAttributes;
 	}
