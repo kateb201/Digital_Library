@@ -3,13 +3,13 @@ package twins.boundaries;
 public class OperationId {
 
 	private String space;
-	private int id;
+	private String id;
 
 	public OperationId() {
 		this.space = "2021b.twins";
-		this.id = 451;
+		this.id = "451";
 	}
-	public OperationId(String space, int id) {
+	public OperationId(String space, String id) {
 			this.space = space;
 			this.id = id;
 	
@@ -22,11 +22,11 @@ public class OperationId {
 		this.space = space;
 	}
 
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 

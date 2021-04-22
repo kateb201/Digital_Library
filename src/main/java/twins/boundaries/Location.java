@@ -8,6 +8,11 @@ public class Location {
         this.lat = 34.2503;
         this.lng = 25.6847;
     }
+    public Location(double lat, double lng) {
+        this.lat = lat;
+        this.lng = lng;
+    }
+    
 
     public double getLat() {
         return lat;

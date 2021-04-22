@@ -16,6 +16,6 @@ public interface ItemsService {
 		
 		public ItemBoundry getSpecificItem(String userSpace,String userEmail,String itemSpace, String itemId );
 		
-		public void AllItems(String adminSpace, String adminEmail);
+		public void deleteAllItems(String adminSpace, String adminEmail);
 	
 }
