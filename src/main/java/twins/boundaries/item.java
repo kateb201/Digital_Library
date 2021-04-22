@@ -6,7 +6,7 @@ public class item {
 	    public item() {
 	}
 
-		public item(String space, int id) {
+		public item(String space, String id) {
 	        this.itemId = new ItemId(space, id);
 	    }
 

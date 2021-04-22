@@ -1,14 +1,14 @@
-package twins.controllers;
+package twins.boundaries;
 
-public class userId {
+public class UserIdBoundary {
 
     private String space;
     private String email;
 
-    public userId() {
+    public UserIdBoundary() {
 	}
 
-	public userId(String space, String email) {
+	public UserIdBoundary(String space, String email) {
         this.space = space;
         this.email = email;
     }

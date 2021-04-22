@@ -1,15 +1,15 @@
 package twins.boundaries;
 
-public class operationId {
+public class OperationId {
 
 	private String space;
 	private int id;
 
-	public operationId() {
+	public OperationId() {
 		this.space = "2021b.twins";
 		this.id = 451;
 	}
-	public operationId(String space, int id) {
+	public OperationId(String space, int id) {
 			this.space = space;
 			this.id = id;
 	

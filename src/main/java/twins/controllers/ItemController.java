@@ -5,14 +5,14 @@ import org.springframework.web.bind.annotation.*;
 
 import twins.boundaries.ItemBoundry;
 import twins.boundaries.ItemId;
-import twins.boundaries.createdBy;
-import twins.boundaries.location;
+import twins.boundaries.CreatedBy;
+import twins.boundaries.Location;
 
 import java.util.ArrayList;
 import java.util.stream.IntStream;
 
 @RestController
-public class itemController {
+public class ItemController {
 
     private ArrayList<ItemBoundry> items = new ArrayList<>();
 
@@ -24,8 +24,8 @@ public class itemController {
                                   @PathVariable("userEmail") String userEmail,
                                   @RequestBody ItemBoundry input) {
         //STUB implementation
-        input.setCreatedBy(new createdBy(userSpace, userEmail));
-        input.setLocation(new location());
+        input.setCreatedBy(new CreatedBy(userSpace, userEmail));
+        input.setLocation(new Location());
         items.add(input);
         return input;
     }
@@ -36,10 +36,10 @@ public class itemController {
     public void updateItem(@PathVariable("userSpace") String userSpace,
                            @PathVariable("userEmail") String userEmail,
                            @PathVariable("itemSpace") String itemSpace,
-                           @PathVariable("itemId") int id,
+                           @PathVariable("itemId") String id,
                            @RequestBody ItemBoundry input) {
         //STUB implementation
-        int index = IntStream.range(0, items.size()).filter(i -> items.get(i).getItemId().getId() == id).findAny().orElse(-1);
+        int index = IntStream.range(0, items.size()).filter(i -> items.get(i).getItemId().getId().equals(id)).findAny().orElse(-1);
         if (index != -1) {
             items.set(index, input);
         }
@@ -51,11 +51,11 @@ public class itemController {
     public ItemBoundry getItem(@PathVariable("userSpace") String userSpace,
                                @PathVariable("userEmail") String userEmail,
                                @PathVariable("itemSpace") String itemSpace,
-                               @PathVariable("itemId") int id) {
+                               @PathVariable("itemId") String id) {
         //STUB implementation
-        ItemBoundry item = items.stream().filter(i -> i.getItemId().getId() == id).findAny().orElse(null);
+        ItemBoundry item = items.stream().filter(i -> i.getItemId().getId().equals(id)).findAny().orElse(null);
         if (item == null) {
-            return new ItemBoundry(new ItemId(userSpace, id), "", true, new createdBy(userSpace, userEmail));
+            return new ItemBoundry(new ItemId(userSpace, id), "", true, new CreatedBy(userSpace, userEmail));
         }
         return item;
     }

@@ -18,11 +18,11 @@ import twins.boundaries.*;
 @Entity
 @Table(name = "OPERATIONS_TABLE")
 public class OperationEntity {
-	private operationId operationId;
+	private OperationId operationId;
     private String type;
     private item item;
     private Date createdTimestamp;
-    private invokedBy invokedBy;
+    private InvokedBy invokedBy;
     private HashMap<String, Object> itemAttributes;
     
     public OperationEntity() {
@@ -42,11 +42,11 @@ public class OperationEntity {
 		operationId.setSpace(space);
 	}
 	@Transient
-	public operationId getOperationId() {
+	public OperationId getOperationId() {
 		return operationId;
 	}
 	@Transient
-	public void setOperationId(operationId operationId) {
+	public void setOperationId(OperationId operationId) {
 		this.operationId = operationId;
 	}
 	public String getType() {
@@ -72,11 +72,11 @@ public class OperationEntity {
 		this.createdTimestamp = createdTimestamp;
 	}
 	@Transient
-	public invokedBy getInvokedBy() {
+	public InvokedBy getInvokedBy() {
 		return invokedBy;
 	}
 	@Transient
-	public void setInvokedBy(invokedBy invokedBy) {
+	public void setInvokedBy(InvokedBy invokedBy) {
 		this.invokedBy = invokedBy;
 	}
 	@Transient

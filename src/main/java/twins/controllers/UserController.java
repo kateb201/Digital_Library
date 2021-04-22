@@ -7,7 +7,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import twins.boundaries.UserBoundary;
-import twins.boundaries.newUserDetails;
+import twins.boundaries.NewUserDetails;
+import twins.boundaries.UserIdBoundary;
 
 
 @RestController
@@ -18,7 +19,7 @@ public class UserController {
 			method = RequestMethod.POST,
 			produces = MediaType.APPLICATION_JSON_VALUE,
 			consumes = MediaType.APPLICATION_JSON_VALUE)
-		public newUserDetails storeMessage (@RequestBody newUserDetails input){
+		public NewUserDetails storeMessage (@RequestBody NewUserDetails input){
 //			input.setCurrentTimestamp(new Date());
 			// STUB
 		 // items.add(input);
@@ -28,13 +29,12 @@ public class UserController {
 	
 	@RequestMapping(path = "/twins/users/login/{userSpace}/{userEmail}",
             method = RequestMethod.GET,
-            consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
 	public UserBoundary createUser(
 			@PathVariable("userSpace") String space,
 			@PathVariable("userEmail") String email) {
 		UserBoundary rv = new UserBoundary();
-		rv.setUserID(new userId(space, email));
+		rv.setUserID(new UserIdBoundary(space, email));
 		return rv;
 	}
 	

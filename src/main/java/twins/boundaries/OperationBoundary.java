@@ -4,11 +4,11 @@ import java.util.Date;
 import java.util.HashMap;
 
 public class OperationBoundary {
-	private operationId operationId;
+	private OperationId operationId;
     private String type;
     private item item;
     private Date  createdTimestamp;
-    private invokedBy invokedBy;
+    private InvokedBy invokedBy;
     private HashMap<String, Object> itemAttributes;
 	
     
@@ -18,8 +18,8 @@ public class OperationBoundary {
         this.itemAttributes = new HashMap<>();
     }
     
-    public OperationBoundary(operationId operationId, String type, twins.boundaries.item item, Date createdTimestamp,
-			invokedBy invokedBy, HashMap<String, Object> itemAttributes) {
+    public OperationBoundary(OperationId operationId, String type, twins.boundaries.item item, Date createdTimestamp,
+							 InvokedBy invokedBy, HashMap<String, Object> itemAttributes) {
 		this();
 		this.operationId = operationId;
 		this.type = type;
@@ -30,12 +30,12 @@ public class OperationBoundary {
 	}
 
 
-	public operationId getOperationId() {
+	public OperationId getOperationId() {
 		return operationId;
 	}
 
 
-	public void setOperationId(operationId operationId) {
+	public void setOperationId(OperationId operationId) {
 		this.operationId = operationId;
 	}
 
@@ -70,12 +70,12 @@ public class OperationBoundary {
 	}
 
 
-	public invokedBy getInvokedBy() {
+	public InvokedBy getInvokedBy() {
 		return invokedBy;
 	}
 
 
-	public void setInvokedBy(invokedBy invokedBy) {
+	public void setInvokedBy(InvokedBy invokedBy) {
 		this.invokedBy = invokedBy;
 	}
 

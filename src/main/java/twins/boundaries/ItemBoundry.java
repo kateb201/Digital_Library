@@ -9,8 +9,8 @@ public class ItemBoundry {
     private String name;
     private boolean active;
     private Date createdTimestamp;
-    private createdBy createdBy;
-    private location location;
+    private CreatedBy createdBy;
+    private Location location;
     private HashMap<String, Object> itemAttributes;
 
     public ItemBoundry() {
@@ -18,7 +18,7 @@ public class ItemBoundry {
         this.itemAttributes = new HashMap<>();
     }
 
-    public ItemBoundry(ItemId itemId, String name, boolean active, createdBy createdBy) {
+    public ItemBoundry(ItemId itemId, String name, boolean active, CreatedBy createdBy) {
         this();
         this.itemId = itemId;
         this.name = name;
@@ -66,19 +66,19 @@ public class ItemBoundry {
         this.createdTimestamp = createdTimestamp;
     }
 
-    public createdBy getCreatedBy() {
+    public CreatedBy getCreatedBy() {
         return createdBy;
     }
 
-    public void setCreatedBy(createdBy createdBy) {
+    public void setCreatedBy(CreatedBy createdBy) {
         this.createdBy = createdBy;
     }
 
-    public location getLocation() {
+    public Location getLocation() {
         return location;
     }
 
-    public void setLocation(location location) {
+    public void setLocation(Location location) {
         this.location = location;
     }
 

@@ -1,10 +1,10 @@
 package twins.boundaries;
 
-public class location {
+public class Location {
     private double lat;
     private double lng;
 
-    public location() {
+    public Location() {
         this.lat = 34.2503;
         this.lng = 25.6847;
     }

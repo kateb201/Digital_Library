@@ -1,12 +1,12 @@
 package twins.boundaries;
-public class newUserDetails {
+public class NewUserDetails {
 	
 	private String email;
 	private String role;
 	private String userName;
 	private String avatar;
 	
-	public newUserDetails() {
+	public NewUserDetails() {
 	}
 	
 	public void NewUserDetails(String email, String role, String userName, String avatar) {

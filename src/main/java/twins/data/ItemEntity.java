@@ -1,7 +1,6 @@
 package twins.data;
 
 import java.util.Date;
-import java.util.HashMap;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,10 +9,6 @@ import javax.persistence.Lob;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-
-import twins.boundaries.ItemId;
-import twins.boundaries.createdBy;
-import twins.boundaries.location;
 
 
 @Entity

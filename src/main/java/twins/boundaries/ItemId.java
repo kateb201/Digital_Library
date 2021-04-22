@@ -3,7 +3,7 @@ package twins.boundaries;
 public class ItemId {
 
     private String space;
-    private int id;
+    private String id;
     
     
 
@@ -11,9 +11,9 @@ public class ItemId {
 	
 	}
 
-	public ItemId(String space, int id) {
+	public ItemId(String space, String id) {
         this.space = space;
-        this.id = id > 0 ? id : 99;
+        this.id = id;
     }
 
     public String getSpace() {
@@ -24,11 +24,11 @@ public class ItemId {
         this.space = space;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 }
