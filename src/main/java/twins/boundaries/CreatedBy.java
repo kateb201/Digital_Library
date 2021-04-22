@@ -1,17 +1,17 @@
 package twins.boundaries;
 
 public class CreatedBy {
-    private UserIdBoundary userIdBoundary;
+    private UserId userId;
 
     public CreatedBy(String space, String email) {
-        this.userIdBoundary = new UserIdBoundary(space, email);
+        this.userId = new UserId(space, email);
     }
 
-    public UserIdBoundary getUserId() {
-        return userIdBoundary;
+    public UserId getUserId() {
+        return userId;
     }
 
-    public void setUserId(UserIdBoundary userIdBoundary) {
-        this.userIdBoundary = userIdBoundary;
+    public void setUserId(UserId userId) {
+        this.userId = userId;
     }
 }
