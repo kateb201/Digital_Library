@@ -11,7 +11,6 @@ import twins.data.ServiceHandler;
 import twins.data.UserEntity;
 
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class UserServiceImplementation implements UsersService {
