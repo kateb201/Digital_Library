@@ -18,7 +18,7 @@ public class OperationEntity {
     private item item;
     private Date createdTimestamp;
     private InvokedBy invokedBy;
-    private HashMap<String, Object> itemAttributes;
+    private String itemAttributes;
     
     public OperationEntity() {
     }
@@ -75,11 +75,11 @@ public class OperationEntity {
 		this.invokedBy = invokedBy;
 	}
 	@Lob
-	public HashMap<String, Object> getItemAttributes() {
+	public String getItemAttributes() {
 		return itemAttributes;
 	}
 	
-	public void setItemAttributes(HashMap<String, Object> itemAttributes) {
+	public void setItemAttributes(String itemAttributes) {
 		this.itemAttributes = itemAttributes;
 	}
 }

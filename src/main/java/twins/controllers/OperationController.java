@@ -26,7 +26,7 @@ public class OperationController {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
 	public OperationBoundary  AsynchronousOperation(@RequestBody OperationBoundary input) {
-		input = (OperationBoundary) operServ.invokeAsynchronous(input);
+		input = operServ.invokeAsynchronous(input);
 		return input;
 	}
 	

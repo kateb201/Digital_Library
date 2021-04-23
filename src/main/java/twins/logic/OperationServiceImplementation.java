@@ -7,7 +7,11 @@ import java.util.UUID;
 
 import org.springframework.transaction.annotation.Transactional;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.util.Date;
+import java.util.HashMap;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,12 +20,15 @@ public class OperationServiceImplementation implements OperationsService{
 
 	private OperationHandler operationHandler;
 	private OperationEntity operationInvoked;
+	private ObjectMapper jackson;
 		
 	@Autowired	
 	public OperationServiceImplementation(OperationHandler operationHandler) {
 		super();
 		this.operationHandler = operationHandler;
 		this.setOperationInvoked(null);
+		this.jackson = new ObjectMapper();
+		
 		
 		}
 	
@@ -49,7 +56,8 @@ public class OperationServiceImplementation implements OperationsService{
 		entity.setId(UUID.randomUUID().toString());
 		entity.setCreatedTimestamp(new Date());
 		this.setOperationInvoked(entity);
-		entity = this.operationHandler.save(entity);
+		if(entity !=null)
+			entity = this.operationHandler.save(entity);
 		return this.convertToBoundary(entity);
 	}
 
@@ -82,7 +90,7 @@ public class OperationServiceImplementation implements OperationsService{
 		boundary.setItem(operation.getItem());
 		boundary.setCreatedTimestamp(operation.getCreatedTimestamp());
 		boundary.setInvokedBy(operation.getInvokedBy());
-		boundary.setItemAttributes(operation.getItemAttributes());
+		boundary.setItemAttributes(this.unmarshall(operation.getItemAttributes(), HashMap.class));
 		boundary.setType(operation.getType());
 		return boundary;
 	}
@@ -93,10 +101,28 @@ public class OperationServiceImplementation implements OperationsService{
 		entity.setId(entity.getOperationId().getId());
 		entity.setItem(boundary.getItem());
 		entity.setCreatedTimestamp(boundary.getCreatedTimestamp());
-		entity.setItemAttributes(boundary.getItemAttributes());
+		entity.setItemAttributes(this.marshall(boundary.getItemAttributes()));
 		entity.setType(boundary.getType());
 		entity.setInvokedBy(boundary.getInvokedBy());
 		return entity;
+	}
+	
+	private String marshall(Object value) {
+		try {
+			return this.jackson
+				.writeValueAsString(value);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+	
+	private <T> T unmarshall(String json, Class<T> requiredType) {
+		try {
+			return this.jackson
+				.readValue(json, requiredType);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	public OperationEntity getOperationInvoked() {

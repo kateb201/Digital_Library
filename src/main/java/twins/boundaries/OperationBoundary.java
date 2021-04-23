@@ -18,11 +18,14 @@ public class OperationBoundary {
         this.itemAttributes = new HashMap<>();
     }
     
-    public OperationBoundary(OperationId operationId, String type, twins.boundaries.item item, HashMap<String, Object> itemAttributes) {
+    public OperationBoundary(OperationId operationId, String type, twins.boundaries.item item,
+    		InvokedBy invok,
+    		HashMap<String, Object> itemAttributes) {
 		this();
 		this.operationId = operationId;
 		this.type = type;
 		this.item = item;
+		this.invokedBy = invok;
 		this.itemAttributes = itemAttributes;
 	}
 
