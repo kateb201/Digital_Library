@@ -28,7 +28,7 @@ public class UserController {
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE)
     public UserBoundary createNewUser(@RequestBody UserBoundary input) {
-        return input;
+        return userService.createUser(input);
 
     }
 
@@ -38,17 +38,24 @@ public class UserController {
     public UserBoundary login(
             @PathVariable("userSpace") String space,
             @PathVariable("userEmail") String email) {
-        return new UserBoundary();
+        return userService.login(space, email);
     }
 
     @RequestMapping(
             path = "/twins/users/{userSpace}/{userEmail}",
             method = RequestMethod.PUT,
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void updateUser(
+    public UserBoundary updateUser(
             @PathVariable("userSpace") String space, @PathVariable("userEmail") String email,
             @RequestBody UserBoundary update) {
-        System.err.println(" update: " + update);
+        return userService.updateUser(space, email, update);
+    }
+
+    @RequestMapping(
+            path = "/twins/users/{adminSpace}/{adminEmail}",
+            method = RequestMethod.DELETE)
+    public void deleteAllUsers(@PathVariable("adminSpace") String space, @PathVariable("adminEmail") String email) {
+        userService.deleteAllUsers(space, email);
     }
 
 }

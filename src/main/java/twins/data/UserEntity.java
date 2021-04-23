@@ -7,9 +7,9 @@ import java.util.Date;
 /*
        USER_TABLE
 
-USERNAME <PK>| EMAIL         | ROLE            | TIMESTAMP | AVATAR
-===============================================================================
-VARCHAR(255) | VARCHAR(255)  | VARCHAR(255)   | TIMESTAMP         | VARCHAR(255)
+    EMAIL <PK>| USERNAME      | ROLE        | TIMESTAMP         | AVATAR              | SPACE
+===================================================================================================
+VARCHAR(255) | VARCHAR(255)  | VARCHAR(255)   | TIMESTAMP         | VARCHAR(255)     | VARCHAR(255)
  */
 @Entity
 @Table(name = "USER_TABLE")
@@ -19,6 +19,7 @@ public class UserEntity {
     private String role;
     private String avatar;
     private Date currentTimestamp;
+    private String userSpace;
 
     public UserEntity() {
     }
@@ -28,6 +29,7 @@ public class UserEntity {
         this.role = role;
         this.username = username;
         this.avatar = avatar;
+        this.userSpace = "2021b.katya.boyko" ;
     }
 
     @Id
