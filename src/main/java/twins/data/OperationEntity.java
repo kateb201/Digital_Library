@@ -1,19 +1,23 @@
 package twins.data;
 import javax.persistence.*;
+
+import org.springframework.beans.factory.annotation.Value;
+
 import twins.boundaries.*;
 import java.util.Date;
-import java.util.HashMap;
+//import java.util.HashMap;
 
 /*
  * OPERATIONS_TABLE
- * operationId <PK>| Space | Type  | MESSAGE_TIMESTAMP | Item Attributes
+ * Id <PK>| Space | Type  | MESSAGE_TIMESTAMP | Item Attributes
  * VARCHAR(255) | VARCHAR(255) | VARCHAR(255) | TIMESTAMP | CLOB
  *  */
 
 @Entity
 @Table(name = "OPERATIONS_TABLE")
 public class OperationEntity {
-	private OperationId operationId;
+	private String id;
+	private String space;
     private String type;
     private item item;
     private Date createdTimestamp;
@@ -25,25 +29,19 @@ public class OperationEntity {
     
     @Id
     public String getId() {
-		return operationId.getId();
+		return id;
 	}
 	public void setId(String id) {
-		operationId.setId(id);
+		this.id = id;
 	}
 	public String getSpace() {
-		return operationId.getSpace();
+		return space;
 	}
+	@Value("${spring.application.name:2021b.twins}")
 	public void setSpace(String space) {
-		operationId.setSpace(space);
+		this.space = space;
 	}
-	@Transient
-	public OperationId getOperationId() {
-		return operationId;
-	}
-	@Transient
-	public void setOperationId(OperationId operationId) {
-		this.operationId = operationId;
-	}
+	
 	public String getType() {
 		return type;
 	}

@@ -37,7 +37,7 @@ public class OperationServiceImplementation implements OperationsService{
 	public Object invokeOperation(OperationBoundary operation) {
 		if (operation == null)
 			throw new RuntimeException("Operation attribute must not be null");
-		operation.setInvokedBy(new InvokedBy(operation.getOperationId().getSpace(), "123"));
+		operation.setInvokedBy(new InvokedBy(operation.getOperationId().getSpace(), operation.getOperationId().getId()));
 		OperationEntity entity = this.convertToEntity(operation);
 		entity.setId(UUID.randomUUID().toString());
 		entity.setCreatedTimestamp(new Date());
@@ -52,6 +52,7 @@ public class OperationServiceImplementation implements OperationsService{
 	public OperationBoundary invokeAsynchronous(OperationBoundary operation) { // SAME AS  INVOKE OPERATION????
 		if (operation == null)
 			throw new RuntimeException("Operation attribute must not be null");
+		operation.setInvokedBy(new InvokedBy(operation.getOperationId().getSpace(), operation.getOperationId().getId()));
 		OperationEntity entity = this.convertToEntity(operation);
 		entity.setId(UUID.randomUUID().toString());
 		entity.setCreatedTimestamp(new Date());
@@ -86,7 +87,8 @@ public class OperationServiceImplementation implements OperationsService{
 	
 	private OperationBoundary convertToBoundary(OperationEntity operation) {
 		OperationBoundary boundary = new OperationBoundary();
-		boundary.setOperationId(operation.getOperationId());
+		if(operation.getId() != null)
+			boundary.setOperationId(new OperationId(operation.getSpace(), operation.getId()));
 		boundary.setItem(operation.getItem());
 		boundary.setCreatedTimestamp(operation.getCreatedTimestamp());
 		boundary.setInvokedBy(operation.getInvokedBy());
@@ -97,8 +99,10 @@ public class OperationServiceImplementation implements OperationsService{
 	
 	private OperationEntity convertToEntity(OperationBoundary boundary) {
 		OperationEntity entity = new OperationEntity();
-		entity.setOperationId(boundary.getOperationId());
-		entity.setId(entity.getOperationId().getId());
+		if(boundary.getOperationId() != null) {
+			entity.setId(boundary.getOperationId().getId());
+			entity.setSpace(boundary.getOperationId().getSpace());
+		}
 		entity.setItem(boundary.getItem());
 		entity.setCreatedTimestamp(boundary.getCreatedTimestamp());
 		entity.setItemAttributes(this.marshall(boundary.getItemAttributes()));
