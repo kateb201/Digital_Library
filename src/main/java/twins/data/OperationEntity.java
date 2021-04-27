@@ -19,7 +19,7 @@ public class OperationEntity {
 	private String id;
 	private String space;
     private String type;
-    private item item;
+    private ItemBoundry item;
     private Date createdTimestamp;
     private InvokedBy invokedBy;
     private String itemAttributes;
@@ -49,11 +49,11 @@ public class OperationEntity {
 		this.type = type;
 	}
 	@Transient
-	public item getItem() {
+	public ItemBoundry getItem() {
 		return item;
 	}
 	@Transient
-	public void setItem(item item) {
+	public void setItem(ItemBoundry item) {
 		this.item = item;
 	}
 	@Temporal(TemporalType.TIMESTAMP)

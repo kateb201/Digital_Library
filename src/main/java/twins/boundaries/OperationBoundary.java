@@ -6,7 +6,7 @@ import java.util.HashMap;
 public class OperationBoundary {
 	private OperationId operationId;
     private String type;
-    private item item;
+    private ItemBoundry item;
     private Date  createdTimestamp;
     private InvokedBy invokedBy;
     private HashMap<String, Object> itemAttributes;
@@ -18,7 +18,7 @@ public class OperationBoundary {
         this.itemAttributes = new HashMap<>();
     }
     
-    public OperationBoundary(OperationId operationId, String type, twins.boundaries.item item,
+    public OperationBoundary(OperationId operationId, String type, ItemBoundry item,
     		InvokedBy invok,
     		HashMap<String, Object> itemAttributes) {
 		this();
@@ -50,12 +50,12 @@ public class OperationBoundary {
 	}
 
 
-	public item getItem() {
+	public ItemBoundry getItem() {
 		return item;
 	}
 
 
-	public void setItem(item item) {
+	public void setItem(ItemBoundry item) {
 		this.item = item;
 	}
 

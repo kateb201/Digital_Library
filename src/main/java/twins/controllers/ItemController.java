@@ -9,19 +9,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import twins.boundaries.ItemBoundry;
-import twins.boundaries.ItemId;
-import twins.boundaries.CreatedBy;
-import twins.boundaries.Location;
 import twins.logic.ItemsService;
 
 import java.util.List;
-import java.util.ArrayList;
-import java.util.stream.IntStream;
 
 @RestController
 public class ItemController {
 
-    private ArrayList<ItemBoundry> items = new ArrayList<>();
     private ItemsService itemService;
     
     @Autowired

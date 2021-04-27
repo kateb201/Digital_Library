@@ -35,8 +35,8 @@ public class OperationServiceImplementation implements OperationsService{
 	@Override
 	@Transactional
 	public Object invokeOperation(OperationBoundary operation) {
-		if (operation == null)
-			throw new RuntimeException("Operation attribute must not be null");
+		if (operation == null || operation.getItem().getType() != null || operation.getType() != null)
+			throw new RuntimeException("Operations attributes must not be null");
 		operation.setInvokedBy(new InvokedBy(operation.getOperationId().getSpace(), operation.getOperationId().getId()));
 		OperationEntity entity = this.convertToEntity(operation);
 		entity.setId(UUID.randomUUID().toString());
