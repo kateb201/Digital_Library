@@ -2,7 +2,6 @@ package twins.logic;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -33,8 +32,6 @@ public class ItemLogicImplementation implements ItemsService{
 		
 	}
 	
-
-
 	@Override
 	@Transactional
 	public ItemBoundry createItem(String userSpace, String userEmail, ItemBoundry item) {
