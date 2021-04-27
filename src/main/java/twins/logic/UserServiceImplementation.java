@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import twins.boundaries.UserBoundary;
-import twins.data.ServiceHandler;
+import twins.data.UserHandler;
 import twins.data.UserEntity;
 import twins.data.UserRole;
 
@@ -18,12 +18,12 @@ import java.util.regex.Pattern;
 @Service
 public class UserServiceImplementation implements UsersService {
 
-    private ServiceHandler serviceHandler;
+    private UserHandler serviceHandler;
     private final Pattern VALID_EMAIL_ADDRESS_REGEX =
             Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
 
     @Autowired
-    public UserServiceImplementation(ServiceHandler serviceHandler) {
+    public UserServiceImplementation(UserHandler serviceHandler) {
         this.serviceHandler = serviceHandler;
     }
 
@@ -51,16 +51,16 @@ public class UserServiceImplementation implements UsersService {
 
     private boolean assertUser(UserBoundary user) {
         if (user.getUsername().equals("") || user.getUsername() == null) {
-            throw new RuntimeException("User attributes must not be null");
+            throw new RuntimeException("User name not valid");
         }
         if (user.getEmail() == null || !assertEmail(user.getEmail())) {
-            throw new RuntimeException("User attributes must not be null");
+            throw new RuntimeException("Email not valid");
         }
         if (user.getAvatar().equals("") || user.getAvatar() == null) {
-            throw new RuntimeException("User attributes must not be null");
+            throw new RuntimeException("Avatar not valid");
         }
         if (user.getRole() == null || !isInEnum(user.getRole())) {
-            throw new RuntimeException("User attributes must not be null");
+            throw new RuntimeException("Role not valid");
         }
         return true;
     }

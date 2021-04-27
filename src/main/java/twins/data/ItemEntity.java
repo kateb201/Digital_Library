@@ -24,7 +24,6 @@ public class ItemEntity {
 	    private Date createdTimestamp;
 	    private double lat;
 	    private double lng;
-	    //private HashMap<String, Object> itemAttributes;
 	    private String itemAttributes;
 	    
 	

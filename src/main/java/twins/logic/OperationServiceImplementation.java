@@ -37,7 +37,7 @@ public class OperationServiceImplementation implements OperationsService{
 	public Object invokeOperation(OperationBoundary operation) {
 		if (operation == null || operation.getItem().getType() != null || operation.getType() != null)
 			throw new RuntimeException("Operations attributes must not be null");
-		operation.setInvokedBy(new InvokedBy(operation.getOperationId().getSpace(), operation.getOperationId().getId()));
+		operation.setInvokedBy(operation.getOperationId().getSpace(), operation.getOperationId().getId());
 		OperationEntity entity = this.convertToEntity(operation);
 		entity.setId(UUID.randomUUID().toString());
 		entity.setCreatedTimestamp(new Date());
@@ -52,7 +52,8 @@ public class OperationServiceImplementation implements OperationsService{
 	public OperationBoundary invokeAsynchronous(OperationBoundary operation) { // SAME AS  INVOKE OPERATION????
 		if (operation == null)
 			throw new RuntimeException("Operation attribute must not be null");
-		operation.setInvokedBy(new InvokedBy(operation.getOperationId().getSpace(), operation.getOperationId().getId()));
+		operation.setInvokedBy(operation.getOperationId().getSpace(), operation.getOperationId().getId());
+		operation.setInvokedBy(operation.getOperationId().getSpace(), operation.getOperationId().getId());
 		OperationEntity entity = this.convertToEntity(operation);
 		entity.setId(UUID.randomUUID().toString());
 		entity.setCreatedTimestamp(new Date());
@@ -70,9 +71,8 @@ public class OperationServiceImplementation implements OperationsService{
 		List<OperationBoundary> lst = new ArrayList<>();
 		
 		for(OperationEntity operation :allOperations) {
-			OperationBoundary boundary = this.convertToBoundary(operation);
-			InvokedBy invok = new InvokedBy(adminSpace, adminEmail);
-			boundary.setInvokedBy(invok);
+			OperationBoundary boundary = this.convertToBoundary(operation);			
+			boundary.setInvokedBy(adminSpace, adminEmail);
 			lst.add(boundary);
 		}
 		return lst;
@@ -91,7 +91,7 @@ public class OperationServiceImplementation implements OperationsService{
 			boundary.setOperationId(new OperationId(operation.getSpace(), operation.getId()));
 		boundary.setItem(operation.getItem());
 		boundary.setCreatedTimestamp(operation.getCreatedTimestamp());
-		boundary.setInvokedBy(operation.getInvokedBy());
+		boundary.setInvokedBy(operation.getSpace(), operation.getEmail());
 		boundary.setItemAttributes(this.unmarshall(operation.getItemAttributes(), HashMap.class));
 		boundary.setType(operation.getType());
 		return boundary;
@@ -107,7 +107,7 @@ public class OperationServiceImplementation implements OperationsService{
 		entity.setCreatedTimestamp(boundary.getCreatedTimestamp());
 		entity.setItemAttributes(this.marshall(boundary.getItemAttributes()));
 		entity.setType(boundary.getType());
-		entity.setInvokedBy(boundary.getInvokedBy());
+		entity.setEmail(boundary.getInvokedBy().getUserId().getEmail());
 		return entity;
 	}
 	

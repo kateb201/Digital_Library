@@ -18,10 +18,10 @@ import java.util.Date;
 public class OperationEntity {
 	private String id;
 	private String space;
+	private String email;
     private String type;
     private ItemBoundry item;
     private Date createdTimestamp;
-    private InvokedBy invokedBy;
     private String itemAttributes;
     
     public OperationEntity() {
@@ -64,14 +64,6 @@ public class OperationEntity {
 	public void setCreatedTimestamp(Date createdTimestamp) {
 		this.createdTimestamp = createdTimestamp;
 	}
-	@Transient
-	public InvokedBy getInvokedBy() {
-		return invokedBy;
-	}
-	@Transient
-	public void setInvokedBy(InvokedBy invokedBy) {
-		this.invokedBy = invokedBy;
-	}
 	@Lob
 	public String getItemAttributes() {
 		return itemAttributes;
@@ -79,5 +71,13 @@ public class OperationEntity {
 	
 	public void setItemAttributes(String itemAttributes) {
 		this.itemAttributes = itemAttributes;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 }

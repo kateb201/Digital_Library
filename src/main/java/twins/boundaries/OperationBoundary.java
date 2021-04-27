@@ -75,8 +75,8 @@ public class OperationBoundary {
 	}
 
 
-	public void setInvokedBy(InvokedBy invokedBy) {
-		this.invokedBy = invokedBy;
+	public void setInvokedBy(String space, String email) {
+		this.invokedBy = new InvokedBy(space, email);
 	}
 
 

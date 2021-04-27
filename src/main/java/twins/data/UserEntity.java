@@ -32,7 +32,7 @@ public class UserEntity {
         this.userSpace = "2021b.katya.boyko" ;
     }
 
-    @Id
+    
     public String getUsername() {
         return username;
     }
@@ -51,7 +51,7 @@ public class UserEntity {
     public void setCurrentTimestamp(Date currentTimestamp) {
         this.currentTimestamp = currentTimestamp;
     }
-
+    @Id
     public String getEmail() {
         return email;
     }
