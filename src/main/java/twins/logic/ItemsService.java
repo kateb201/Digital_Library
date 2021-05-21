@@ -19,6 +19,7 @@ public interface ItemsService {
 
     public void deleteAllItems(String adminSpace, String adminEmail);
 
+    //TODO create in an extended interface
     public Books searchBook(String title);
 
 }

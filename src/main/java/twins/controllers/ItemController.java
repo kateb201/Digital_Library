@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import twins.Books;
-import twins.boundaries.BookBoundary;
 import twins.boundaries.ItemBoundry;
 import twins.logic.ItemsService;
 
@@ -71,6 +70,7 @@ public class ItemController {
         return allItems;
     }
 
+    //TODO merge into defined method
     @RequestMapping(path = "api/{title}",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)

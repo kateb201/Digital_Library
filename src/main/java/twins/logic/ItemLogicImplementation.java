@@ -170,8 +170,7 @@ public class ItemLogicImplementation implements ItemsService {
 
     @Override
     public Books searchBook(String title) {
-        Mono<Books> res = BooksAPI.searchByTitle(title);
-        return res.block();
+        return BooksAPI.searchByTitle(title).block();
     }
 
 }

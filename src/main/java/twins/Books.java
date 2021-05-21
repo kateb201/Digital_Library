@@ -1,14 +1,16 @@
 package twins;
 
 import twins.boundaries.BookBoundary;
+import twins.boundaries.Items;
 
 public class Books {
 
     String kind;
     int totalItems;
-    BookBoundary[] items = new BookBoundary[10];
+    Items[] items;
 
     public Books() {
+
     }
 
     public String getKind() {
@@ -27,11 +29,11 @@ public class Books {
         this.totalItems = totalItems;
     }
 
-    public BookBoundary[] getItems() {
+    public Items[] getItems() {
         return items;
     }
 
-    public void setItems(BookBoundary[] items) {
+    public void setItems(Items[] items) {
         this.items = items;
     }
 }
