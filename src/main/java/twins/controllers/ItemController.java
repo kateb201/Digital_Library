@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import twins.boundaries.BookBoundary;
 import twins.boundaries.ItemBoundry;
 import twins.logic.ItemsService;
 
@@ -17,11 +18,11 @@ import java.util.List;
 public class ItemController {
 
     private ItemsService itemService;
-    
+
     @Autowired
-	public void setItemsService(ItemsService itemService) {
-		this.itemService = itemService;
-	}
+    public void setItemsService(ItemsService itemService) {
+        this.itemService = itemService;
+    }
 
     @RequestMapping(path = "/twins/items/{userSpace}/{userEmail}",
             method = RequestMethod.POST,
@@ -31,8 +32,8 @@ public class ItemController {
                                   @PathVariable("userEmail") String userEmail,
                                   @RequestBody ItemBoundry input) {
         //create item
-    	return this.itemService.createItem(userSpace, userEmail, input);
-    	
+        return this.itemService.createItem(userSpace, userEmail, input);
+
     }
 
     @RequestMapping(path = "/twins/items/{userSpace}/{userEmail}/{itemSpace}/{itemId}",
@@ -44,7 +45,7 @@ public class ItemController {
                            @PathVariable("itemId") String id,
                            @RequestBody ItemBoundry input) {
         this.itemService.updateItem(userSpace, userEmail, itemSpace, id, input);
-       
+
     }
 
     @RequestMapping(path = "/twins/items/{userSpace}/{userEmail}/{itemSpace}/{itemId}",
@@ -55,7 +56,7 @@ public class ItemController {
                                @PathVariable("itemSpace") String itemSpace,
                                @PathVariable("itemId") String id) {
         //get Specific Item
-        
+
         return this.itemService.getSpecificItem(userSpace, userEmail, itemSpace, id);
     }
 
@@ -63,10 +64,18 @@ public class ItemController {
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public List<ItemBoundry> getAllItem(@PathVariable("userSpace") String userSpace,
-                                             @PathVariable("userEmail") String userEmail) {
+                                        @PathVariable("userEmail") String userEmail) {
         //get all Items
-    	List<ItemBoundry> allItems = this.itemService.getAllItems(userSpace, userEmail);
+        List<ItemBoundry> allItems = this.itemService.getAllItems(userSpace, userEmail);
         return allItems;
+    }
+
+    @RequestMapping(path = "api/{title}",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<BookBoundary> searchItem(@PathVariable("title") String title) {
+        //search in Google Books API
+        return this.itemService.searchBook(title);
     }
 
 }
