@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import twins.Books;
+import twins.boundaries.Books;
 import twins.boundaries.ItemBoundry;
 import twins.logic.ItemsService;
 

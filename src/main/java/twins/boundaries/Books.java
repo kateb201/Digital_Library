@@ -1,7 +1,4 @@
-package twins;
-
-import twins.boundaries.BookBoundary;
-import twins.boundaries.Items;
+package twins.boundaries;
 
 public class Books {
 
