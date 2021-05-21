@@ -1,19 +1,18 @@
 package twins;
 
 import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Flux;
-import twins.boundaries.BookBoundary;
+import reactor.core.publisher.Mono;
 
 public class BooksAPI {
 
     final static String baseUrl = "https://www.googleapis.com/books/v1/volumes?q=";
 
-    public static Flux<BookBoundary> searchByTitle(String title) {
-        WebClient client = WebClient.create(baseUrl + "&maxResults=10");
+    public static Mono<Books> searchByTitle(String title) {
+        WebClient client = WebClient.create(baseUrl);
         return client.get()
-                .uri(title)
+                .uri("?q=" + title + "&maxResults=10")
                 .retrieve()
-                .bodyToFlux(BookBoundary.class);
+                .bodyToMono(Books.class);
     }
 }
 

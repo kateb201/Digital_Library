@@ -15,6 +15,8 @@ import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+import twins.Books;
 import twins.BooksAPI;
 import twins.boundaries.*;
 import twins.data.ItemEntity;
@@ -167,9 +169,9 @@ public class ItemLogicImplementation implements ItemsService {
     }
 
     @Override
-    public List<BookBoundary> searchBook(String title) {
-        Flux<BookBoundary> res = BooksAPI.searchByTitle(title);
-        return res.collectList().block();
+    public Books searchBook(String title) {
+        Mono<Books> res = BooksAPI.searchByTitle(title);
+        return res.block();
     }
 
 }

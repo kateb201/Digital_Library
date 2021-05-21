@@ -3,6 +3,7 @@ package twins.logic;
 
 import java.util.List;
 
+import twins.Books;
 import twins.boundaries.*;
 
 
@@ -18,6 +19,6 @@ public interface ItemsService {
 
     public void deleteAllItems(String adminSpace, String adminEmail);
 
-    public List<BookBoundary> searchBook(String title);
+    public Books searchBook(String title);
 
 }
