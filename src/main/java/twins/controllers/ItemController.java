@@ -8,22 +8,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import twins.boundaries.Books;
 import twins.boundaries.ItemBoundry;
-import twins.logic.ItemsService;
+import twins.logic.ExtendedItemService;
 
 import java.util.List;
 
 @RestController
 public class ItemController {
 
-    private ItemsService itemService;
+    private ExtendedItemService itemService;
 
     @Autowired
-    public void setItemsService(ItemsService itemService) {
+    public void setItemsService(ExtendedItemService itemService) {
         this.itemService = itemService;
     }
 
+    //ADMIN only
     @RequestMapping(path = "/twins/items/{userSpace}/{userEmail}",
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE,
@@ -33,7 +33,6 @@ public class ItemController {
                                   @RequestBody ItemBoundry input) {
         //create item
         return this.itemService.createItem(userSpace, userEmail, input);
-
     }
 
     @RequestMapping(path = "/twins/items/{userSpace}/{userEmail}/{itemSpace}/{itemId}",
@@ -56,7 +55,6 @@ public class ItemController {
                                @PathVariable("itemSpace") String itemSpace,
                                @PathVariable("itemId") String id) {
         //get Specific Item
-
         return this.itemService.getSpecificItem(userSpace, userEmail, itemSpace, id);
     }
 
@@ -68,15 +66,6 @@ public class ItemController {
         //get all Items
         List<ItemBoundry> allItems = this.itemService.getAllItems(userSpace, userEmail);
         return allItems;
-    }
-
-    //TODO merge into defined method
-    @RequestMapping(path = "api/{title}",
-            method = RequestMethod.GET,
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    public Books searchItem(@PathVariable("title") String title) {
-        //search in Google Books API
-        return this.itemService.searchBook(title);
     }
 
 }

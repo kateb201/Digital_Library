@@ -12,12 +12,21 @@ public class VolumeInfo {
     String description;
     int pageCount;
     String language;
+    int price;
 
     public VolumeInfo() {
     }
 
     public String getTitle() {
         return title;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
     }
 
     public void setTitle(String title) {

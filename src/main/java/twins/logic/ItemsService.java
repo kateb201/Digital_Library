@@ -8,7 +8,6 @@ import twins.boundaries.*;
 
 
 public interface ItemsService {
-
     public ItemBoundry createItem(String userSpace, String userEmail, ItemBoundry item);
 
     public ItemBoundry updateItem(String userSpace, String userEmail, String itemSpace, String itemId, ItemBoundry update);
@@ -18,8 +17,5 @@ public interface ItemsService {
     public ItemBoundry getSpecificItem(String userSpace, String userEmail, String itemSpace, String itemId);
 
     public void deleteAllItems(String adminSpace, String adminEmail);
-
-    //TODO create in an extended interface
-    public Books searchBook(String title);
 
 }

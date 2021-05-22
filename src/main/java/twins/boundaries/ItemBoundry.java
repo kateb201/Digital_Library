@@ -4,7 +4,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ItemBoundry {
+public class ItemBoundry implements Cloneable {
     private ItemId itemId;
     private String type = "book";
     private String name;
@@ -25,6 +25,15 @@ public class ItemBoundry {
         this.name = name;
         this.active = active;
         this.createdBy = createdBy;
+    }
+
+    public Object clone() {
+        try {
+            return super.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public ItemId getItemId() {

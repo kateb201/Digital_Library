@@ -20,7 +20,7 @@ import twins.boundaries.*;
 import twins.data.ItemEntity;
 
 @Service
-public class ItemLogicImplementation implements ItemsService {
+public class ItemLogicImplementation implements ExtendedItemService {
     private ItemHandler itemHandler;
     private ObjectMapper jackson;
 
@@ -41,18 +41,27 @@ public class ItemLogicImplementation implements ItemsService {
         if (item.getName() == null) {
             throw new RuntimeException("name attribute must not be null");
         }
-
-        ItemEntity entity = this.convertToEntity(item);
-
-        entity.setId(UUID.randomUUID().toString());
-        entity.setCreatedTimestamp(new Date());
-        entity.setSpace(userSpace);
-        entity.setEmail(userEmail);
-
-        entity = this.itemHandler.save(entity);
-
+        Books fromAPI = searchBook(item.getItemAttributes());
+        ItemEntity entity = null;
+        for (int i = 0; i < Integer.parseInt(BooksAPI.MAX_RESULTS); i++) {
+            ItemBoundry new_item = (ItemBoundry) item.clone();
+            new_item = insertVolumeInfoToItemAttr(new_item, fromAPI.getItems(), i); //set result from api to item attr.
+            entity = this.convertToEntity(new_item);
+            entity.setId(UUID.randomUUID().toString());
+            entity.setCreatedTimestamp(new Date());
+            entity.setSpace(userSpace);
+            entity.setEmail(userEmail);
+            entity = this.itemHandler.save(entity);
+        }
         return this.convertToBoundary(entity);
 
+    }
+
+    private ItemBoundry insertVolumeInfoToItemAttr(ItemBoundry item, Items[] volumeInfo, int index) {
+        Map<String, Object> itemAttr = unmarshall(marshall(volumeInfo[index]), Map.class);
+        item.setItemAttributes(itemAttr);
+        item.setName((String) itemAttr.get("Title"));
+        return item;
     }
 
     @Override
@@ -62,6 +71,7 @@ public class ItemLogicImplementation implements ItemsService {
         if (existing.isPresent()) {
             update.setItemId(new ItemId(itemSpace, itemId));
             update.setCreatedBy(new CreatedBy(userSpace, userEmail));
+            update = updateVolumeDetails(update, existing);
             ItemEntity updatedEntity = this.convertToEntity(update);
             updatedEntity.setCreatedTimestamp(existing.get().getCreatedTimestamp());
 
@@ -70,6 +80,19 @@ public class ItemLogicImplementation implements ItemsService {
         } else {
             throw new RuntimeException("message could not be found");
         }
+        return update;
+    }
+
+    private ItemBoundry updateVolumeDetails(ItemBoundry update, Optional<ItemEntity> existing) {
+        int updateVal = 0;
+        for (Map.Entry<String, Object> entry : update.getItemAttributes().entrySet()) {
+            if (entry.getKey().equals("Price")) {
+                updateVal = (int) entry.getValue();
+                update.setItemAttributes(convertToBoundary(existing.get()).getItemAttributes());
+                break;
+            }
+        }
+        update.getItemAttributes().put("Price", updateVal);
         return update;
     }
 
@@ -167,8 +190,7 @@ public class ItemLogicImplementation implements ItemsService {
     }
 
     @Override
-    public Books searchBook(String title) {
-        return BooksAPI.searchByTitle(title).block();
+    public Books searchBook(Map<String, Object> details) {
+        return BooksAPI.searchByTitle(details).block();
     }
-
 }
