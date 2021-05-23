@@ -1,6 +1,6 @@
 package twins.data;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
-public interface UserHandler extends CrudRepository<UserEntity, String> {
+public interface UserHandler extends MongoRepository<UserEntity, String> {
 }

@@ -18,6 +18,7 @@ import twins.boundaries.Books;
 import twins.BooksAPI;
 import twins.boundaries.*;
 import twins.data.ItemEntity;
+import twins.data.ItemHandler;
 
 @Service
 public class ItemLogicImplementation implements ExtendedItemService {

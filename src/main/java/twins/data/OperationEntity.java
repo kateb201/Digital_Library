@@ -1,8 +1,10 @@
 package twins.data;
-import javax.persistence.*;
+
 
 import org.springframework.beans.factory.annotation.Value;
-
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 import twins.boundaries.*;
 import java.util.Date;
 //import java.util.HashMap;
@@ -13,9 +15,10 @@ import java.util.Date;
  * VARCHAR(255) | VARCHAR(255) | VARCHAR(255) | TIMESTAMP | CLOB
  *  */
 
-@Entity
-@Table(name = "OPERATIONS_TABLE")
+
+@Document(collection = "Operation")
 public class OperationEntity {
+	@Id
 	private String id;
 	private String space;
 	private String email;
@@ -27,7 +30,6 @@ public class OperationEntity {
     public OperationEntity() {
     }
     
-    @Id
     public String getId() {
 		return id;
 	}
@@ -48,23 +50,23 @@ public class OperationEntity {
 	public void setType(String type) {
 		this.type = type;
 	}
-	@Transient
+
 	public ItemBoundry getItem() {
 		return item;
 	}
-	@Transient
+
 	public void setItem(ItemBoundry item) {
 		this.item = item;
 	}
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="MESSAGE_TIMESTAMP") //  set column name: MESSAGE_TIMESTAMP
+
+	@Field(name="MESSAGE_TIMESTAMP") //  set column name: MESSAGE_TIMESTAMP
 	public Date getCreatedTimestamp() {
 		return createdTimestamp;
 	}
 	public void setCreatedTimestamp(Date createdTimestamp) {
 		this.createdTimestamp = createdTimestamp;
 	}
-	@Lob
+
 	public String getItemAttributes() {
 		return itemAttributes;
 	}

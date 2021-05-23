@@ -1,20 +1,16 @@
 package twins.data;
 
 import java.util.Date;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Lob;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.beans.factory.annotation.Value;
 
-@Entity
-@Table(name="Items_TABLE")
+
+
+@Document(collection = "Item")
 public class ItemEntity {
-		//private ItemId itemId;
+		@Id
 		private String id;
 		private String space;
 		private String email;
@@ -30,7 +26,7 @@ public class ItemEntity {
 		public ItemEntity() {
 		}
 
-		@Id
+
 		public String getId() {
 			return id;
 		}
@@ -39,8 +35,7 @@ public class ItemEntity {
 			this.id = id;
 		}
 		
-		@Temporal(TemporalType.TIMESTAMP)
-		@Column(name="Items_TIMESTAMP") //  set column name: MESSAGE_TIMESTAMP
+		@Field(name="Items_TIMESTAMP") //  set column name: MESSAGE_TIMESTAMP
 		public Date getCreatedTimestamp() {
 			return createdTimestamp;
 		}
@@ -51,7 +46,6 @@ public class ItemEntity {
 		}
 
 
-		@Lob  // configure column type to support really large JSONs
 		public String getItemAttributes() {
 			return itemAttributes;
 		}

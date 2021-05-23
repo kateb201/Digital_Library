@@ -1,7 +1,9 @@
 package twins.data;
 
 
-import javax.persistence.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 import java.util.Date;
 
 /*
@@ -11,10 +13,11 @@ import java.util.Date;
 ===================================================================================================
 VARCHAR(255) | VARCHAR(255)  | VARCHAR(255)   | TIMESTAMP         | VARCHAR(255)     | VARCHAR(255)
  */
-@Entity
-@Table(name = "USER_TABLE")
+
+@Document(collection = "User")
 public class UserEntity {
     private String username;
+    @Id
     private String email;
     private String role;
     private String avatar;
@@ -29,7 +32,7 @@ public class UserEntity {
         this.role = role;
         this.username = username;
         this.avatar = avatar;
-        this.userSpace = "2021b.katya.boyko" ;
+        this.setUserSpace("2021b.katya.boyko") ;
     }
 
     
@@ -41,8 +44,8 @@ public class UserEntity {
         this.username = username;
     }
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "TIMESTAMP")
+
+    @Field(name = "TIMESTAMP")
     public Date getCurrentTimestamp() {
         return currentTimestamp;
     }
@@ -51,7 +54,7 @@ public class UserEntity {
     public void setCurrentTimestamp(Date currentTimestamp) {
         this.currentTimestamp = currentTimestamp;
     }
-    @Id
+
     public String getEmail() {
         return email;
     }
@@ -75,4 +78,12 @@ public class UserEntity {
     public void setAvatar(String avatar) {
         this.avatar = avatar;
     }
+
+	public String getUserSpace() {
+		return userSpace;
+	}
+
+	public void setUserSpace(String userSpace) {
+		this.userSpace = userSpace;
+	}
 }
