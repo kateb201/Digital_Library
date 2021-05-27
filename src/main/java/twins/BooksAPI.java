@@ -1,17 +1,20 @@
 package twins;
-
-import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Mono;
+//import org.springframework.web.reactive.function.client.WebClient;
+//import reactor.core.publisher.Mono;
 import twins.boundaries.Books;
 
 import java.util.Map;
 
+import org.springframework.web.client.RestTemplate;
+
 public class BooksAPI {
 
     final static String BASE_URL = "https://www.googleapis.com/books/v1/volumes";
-    public final static String MAX_RESULTS = "10";
+    public final static String MAX_RESULTS = "1";
 
-    public static Mono<Books> searchByTitle(Map<String, Object> details) {
+    //public static Mono<Books> searchByTitle(Map<String, Object> details) {
+    public static Books searchByTitle(Map<String, Object> details) {
+    	RestTemplate rest = new RestTemplate();
         //deal with map
         StringBuilder uri = new StringBuilder();
         for (Map.Entry<String, Object> entry : details.entrySet()) {
@@ -42,11 +45,12 @@ public class BooksAPI {
             }
 
         }
-        WebClient client = WebClient.create(BASE_URL);
-        return client.get()
-                .uri("?q=" + uri + "&maxResults=" + MAX_RESULTS)
-                .retrieve()
-                .bodyToMono(Books.class);
+        //WebClient client = WebClient.create(BASE_URL);
+        //return client.get()
+                //.uri("?q=" + uri + "&maxResults=" + MAX_RESULTS)
+                //.retrieve()
+                //.bodyToMono(Books.class);
+        return rest.getForObject(BASE_URL + "?q=" + uri + "&maxResults=" + MAX_RESULTS, Books.class);        
     }
 }
 

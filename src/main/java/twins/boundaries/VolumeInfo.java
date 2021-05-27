@@ -13,8 +13,17 @@ public class VolumeInfo {
     int pageCount;
     String language;
     int price;
+    String imageLinks;
 
-    public VolumeInfo() {
+    public String getImageLinks() {
+		return imageLinks;
+	}
+
+	public void setImageLinks(String imageLinks) {
+		this.imageLinks = imageLinks;
+	}
+
+	public VolumeInfo() {
     }
 
     public String getTitle() {

@@ -42,18 +42,24 @@ public class ItemLogicImplementation implements ExtendedItemService {
         if (item.getName() == null) {
             throw new RuntimeException("name attribute must not be null");
         }
-        Books fromAPI = searchBook(item.getItemAttributes());
+        //Books fromAPI = searchBook(item.getItemAttributes());
         ItemEntity entity = null;
-        for (int i = 0; i < Integer.parseInt(BooksAPI.MAX_RESULTS); i++) {
-            ItemBoundry new_item = (ItemBoundry) item.clone();
-            new_item = insertVolumeInfoToItemAttr(new_item, fromAPI.getItems(), i); //set result from api to item attr.
-            entity = this.convertToEntity(new_item);
-            entity.setId(UUID.randomUUID().toString());
-            entity.setCreatedTimestamp(new Date());
-            entity.setSpace(userSpace);
-            entity.setEmail(userEmail);
-            entity = this.itemHandler.save(entity);
-        }
+        //for (int i = 0; i < Integer.parseInt(BooksAPI.MAX_RESULTS); i++) {
+        //    ItemBoundry new_item = (ItemBoundry) item.clone();
+        //    new_item = insertVolumeInfoToItemAttr(new_item, fromAPI.getItems(), i); //set result from api to item attr.
+        //    entity = this.convertToEntity(new_item);
+        //    entity.setId(UUID.randomUUID().toString());
+        //    entity.setCreatedTimestamp(new Date());
+        //    entity.setSpace(userSpace);
+        //    entity.setEmail(userEmail);
+        //    entity = this.itemHandler.save(entity);
+        //}
+        entity = this.convertToEntity(item);
+        entity.setId(UUID.randomUUID().toString());
+        entity.setCreatedTimestamp(new Date());
+        entity.setSpace(userSpace);
+        entity.setEmail(userEmail);
+        entity = this.itemHandler.save(entity);
         return this.convertToBoundary(entity);
 
     }
@@ -192,6 +198,6 @@ public class ItemLogicImplementation implements ExtendedItemService {
 
     @Override
     public Books searchBook(Map<String, Object> details) {
-        return BooksAPI.searchByTitle(details).block();
+        return BooksAPI.searchByTitle(details);//.block();
     }
 }
