@@ -178,7 +178,7 @@ public class ItemLogicImplementation implements ExtendedItemService {
         return boundary;
     }
 
-    private String marshall(Object value) {
+    public String marshall(Object value) {
         try {
             return this.jackson
                     .writeValueAsString(value);
@@ -187,7 +187,7 @@ public class ItemLogicImplementation implements ExtendedItemService {
         }
     }
 
-    private <T> T unmarshall(String json, Class<T> requiredType) {
+    public <T> T unmarshall(String json, Class<T> requiredType) {
         try {
             return this.jackson
                     .readValue(json, requiredType);

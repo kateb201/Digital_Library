@@ -10,7 +10,7 @@ import org.springframework.web.client.RestTemplate;
 public class BooksAPI {
 
     final static String BASE_URL = "https://www.googleapis.com/books/v1/volumes";
-    public final static String MAX_RESULTS = "1";
+    public final static String MAX_RESULTS = "10";
 
     //public static Mono<Books> searchByTitle(Map<String, Object> details) {
     public static Books searchByTitle(Map<String, Object> details) {

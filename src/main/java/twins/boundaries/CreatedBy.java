@@ -3,6 +3,9 @@ package twins.boundaries;
 public class CreatedBy {
     private UserId userId;
 
+    public CreatedBy() {
+    }
+    
     public CreatedBy(String space, String email) {
         this.userId = new UserId(space, email);
     }

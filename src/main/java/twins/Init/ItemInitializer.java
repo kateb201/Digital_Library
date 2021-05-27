@@ -1,4 +1,5 @@
 package twins.Init;
+import twins.BooksAPI;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,14 +14,15 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import twins.boundaries.Books;
+import twins.boundaries.CreatedBy;
 import twins.boundaries.ItemBoundry;
-
-
-public class ItemInitializer {
-	
-	@Component
-	@Profile("initAfekaMessages")
-	public class MessageInitializer implements CommandLineRunner{
+import twins.boundaries.Items;
+import twins.logic.*;
+@Component
+@Profile("initItems")
+public class ItemInitializer implements CommandLineRunner{
 		private RestTemplate restTemplate;
 		private String url;
 		private int port;
@@ -44,6 +46,9 @@ public class ItemInitializer {
 			List<ItemBoundry> allBoundariesToPost = new ArrayList<>();
 			// first message
 			ItemBoundry item = new ItemBoundry();
+			item.setName("Book");
+			item.setType("Book");
+			item.setCreatedBy(new CreatedBy("2021b.katyaBoyko", "admin@admin.com"));
 			Map<String, Object> map = new HashMap<String, Object>();
 			List<String> subjects = new ArrayList<>();
 			subjects.add("HORROR");
@@ -53,45 +58,9 @@ public class ItemInitializer {
 			subjects.add("COMPUTERS");
 			map.put("Subject", subjects.get(0));
 			item.setItemAttributes(map);
+			Books fromAPI = searchBook(item.getItemAttributes());
 			allBoundariesToPost.add(item);
 			
-//			HelloBoundary messageReturnedFromServer ;
-//			for (HelloBoundary msg : allBoundariesToPost) {
-//				messageReturnedFromServer =  this.restTemplate
-//						.postForObject(this.url, message, HelloBoundary.class);
-//				System.err.println(convertToJson(messageReturnedFromServer));
-//			}
-			
-			// Streaming API
-//			allBoundariesToPost // List<HelloBoundary>
-//				.stream() // Stream<HelloBoundary>
-////				.map(new Function<HelloBoundary, HelloBoundary>() {
-	////
-////					@Override
-////					public HelloBoundary apply(HelloBoundary input) {
-	////
-////						return restTemplate
-////								.postForObject(url, input, HelloBoundary.class);
-////					}
-////				}) 
-//				.map(input -> restTemplate  // lambda expression
-//								.postForObject(url, input, HelloBoundary.class)) // Stream<HelloBoundary>
-////				.map(new Function<HelloBoundary, String>() {
-	////
-////					@Override
-////					public String apply(HelloBoundary input) {
-////						return convertToJson(input);
-////					}
-////				})
-//				.map(this::convertToJson)// use method reference and finally return Stream <String>
-////				.forEach(new Consumer<String>() {
-	////
-////					@Override
-////					public void accept(String input) {
-////						System.err.println(input);
-////					}
-////				}); // return nothing (void)
-//				.forEach(System.err::println); // use method reference to print data
 			
 			
 			allBoundariesToPost // List<HelloBoundary>
@@ -110,7 +79,19 @@ public class ItemInitializer {
 				throw new RuntimeException(e);
 			}
 		}
-	}
+		/*
+	    private ItemBoundry insertVolumeInfoToItemAttr(ItemBoundry item, Items[] volumeInfo, int index) {
+	        Map<String, Object> itemAttr = unmarshall(marshall(volumeInfo[index]), Map.class);
+	        item.setItemAttributes(itemAttr);
+	        item.setName((String) itemAttr.get("Title"));
+	        return item;
+	    }
+	    */
+	    
+	    public Books searchBook(Map<String, Object> details) {
+	        return BooksAPI.searchByTitle(details);//.block();
+	    }
+}
 
 	
-}
+
