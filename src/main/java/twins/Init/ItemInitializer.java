@@ -45,10 +45,6 @@ public class ItemInitializer implements CommandLineRunner{
 		public void run(String... args) throws Exception {
 			List<ItemBoundry> allBoundariesToPost = new ArrayList<>();
 			// first message
-			ItemBoundry item = new ItemBoundry();
-			item.setName("Book");
-			item.setType("Book");
-			item.setCreatedBy(new CreatedBy("2021b.katyaBoyko", "admin@admin.com"));
 			Map<String, Object> map = new HashMap<String, Object>();
 			List<String> subjects = new ArrayList<>();
 			subjects.add("HORROR");
@@ -56,6 +52,19 @@ public class ItemInitializer implements CommandLineRunner{
 			subjects.add("FICTION");
 			subjects.add("DRAMA");
 			subjects.add("COMPUTERS");
+			for(String val: subjects) {
+				ItemBoundry item = new ItemBoundry();
+				item.setName("Book");
+				item.setType("Book");
+				item.setCreatedBy(new CreatedBy("2021b.katyaBoyko", "admin@admin.com"));
+				map.put("Subject", val);
+				item.setItemAttributes(map);
+				map.clear();
+			}
+			ItemBoundry item = new ItemBoundry();
+			item.setName("Book");
+			item.setType("Book");
+			item.setCreatedBy(new CreatedBy("2021b.katyaBoyko", "admin@admin.com"));
 			map.put("Subject", subjects.get(0));
 			item.setItemAttributes(map);
 			Books fromAPI = searchBook(item.getItemAttributes());
@@ -79,14 +88,15 @@ public class ItemInitializer implements CommandLineRunner{
 				throw new RuntimeException(e);
 			}
 		}
-		/*
+		
 	    private ItemBoundry insertVolumeInfoToItemAttr(ItemBoundry item, Items[] volumeInfo, int index) {
-	        Map<String, Object> itemAttr = unmarshall(marshall(volumeInfo[index]), Map.class);
+	    	ItemLogicImplementation itemlog = new ItemLogicImplementation(null);
+	        Map<String, Object> itemAttr = itemlog.unmarshall(itemlog.marshall(volumeInfo[index]), Map.class);
 	        item.setItemAttributes(itemAttr);
 	        item.setName((String) itemAttr.get("Title"));
 	        return item;
 	    }
-	    */
+	    
 	    
 	    public Books searchBook(Map<String, Object> details) {
 	        return BooksAPI.searchByTitle(details);//.block();
