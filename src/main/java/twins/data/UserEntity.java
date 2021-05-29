@@ -1,6 +1,7 @@
 package twins.data;
 
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
@@ -82,7 +83,8 @@ public class UserEntity {
 	public String getUserSpace() {
 		return userSpace;
 	}
-
+	
+	@Value("${spring.application.name:2021b.twins}")
 	public void setUserSpace(String userSpace) {
 		this.userSpace = userSpace;
 	}

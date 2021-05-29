@@ -3,7 +3,7 @@ import java.util.List;
 
 import twins.boundaries.*;
 
-public interface OperationsService {
+public interface OperationsService  {
 
 	public Object invokeOperation(OperationBoundary operation);
 	public OperationBoundary invokeAsynchronous(OperationBoundary operation);

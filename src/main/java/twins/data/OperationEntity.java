@@ -20,12 +20,13 @@ import java.util.Date;
 public class OperationEntity {
 	@Id
 	private String id;
+	@Id
 	private String space;
 	private String email;
     private String type;
     private ItemBoundry item;
     private Date createdTimestamp;
-    private String itemAttributes;
+    private String operationAttributes;
     
     public OperationEntity() {
     }
@@ -67,12 +68,12 @@ public class OperationEntity {
 		this.createdTimestamp = createdTimestamp;
 	}
 
-	public String getItemAttributes() {
-		return itemAttributes;
+	public String getOperationAttributes() {
+		return operationAttributes;
 	}
 	
-	public void setItemAttributes(String itemAttributes) {
-		this.itemAttributes = itemAttributes;
+	public void setOperationAttributes(String operationAttributes) {
+		this.operationAttributes = operationAttributes;
 	}
 
 	public String getEmail() {

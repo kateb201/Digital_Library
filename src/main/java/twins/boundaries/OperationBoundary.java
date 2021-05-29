@@ -2,6 +2,7 @@ package twins.boundaries;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 
 public class OperationBoundary {
 	private OperationId operationId;
@@ -9,24 +10,24 @@ public class OperationBoundary {
     private ItemBoundry item;
     private Date  createdTimestamp;
     private InvokedBy invokedBy;
-    private HashMap<String, Object> itemAttributes;
+    private Map<String, Object> operationAttributes;
 	
     
    
     public OperationBoundary() {
         this.createdTimestamp = new Date();
-        this.itemAttributes = new HashMap<>();
+        this.operationAttributes = new HashMap<>();
     }
     
     public OperationBoundary(OperationId operationId, String type, ItemBoundry item,
     		InvokedBy invok,
-    		HashMap<String, Object> itemAttributes) {
+    		HashMap<String, Object> operationAttributes) {
 		this();
 		this.operationId = operationId;
 		this.type = type;
 		this.item = item;
 		this.invokedBy = invok;
-		this.itemAttributes = itemAttributes;
+		this.operationAttributes = operationAttributes;
 	}
 
 
@@ -80,13 +81,13 @@ public class OperationBoundary {
 	}
 
 
-	public HashMap<String, Object> getItemAttributes() {
-		return itemAttributes;
+	public Map<String, Object> getOperationAttributes() {
+		return operationAttributes;
 	}
 
 
-	public void setItemAttributes(HashMap<String, Object> itemAttributes) {
-		this.itemAttributes = itemAttributes;
+	public void setOperationAttributes(HashMap<String, Object> operationAttributes) {
+		this.operationAttributes = operationAttributes;
 	}
     
     

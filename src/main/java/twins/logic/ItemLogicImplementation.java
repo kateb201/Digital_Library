@@ -1,5 +1,6 @@
 package twins.logic;
 
+import java.io.UncheckedIOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -19,16 +20,23 @@ import twins.BooksAPI;
 import twins.boundaries.*;
 import twins.data.ItemEntity;
 import twins.data.ItemHandler;
+import twins.data.UserEntity;
+import twins.data.UserHandler;
+import twins.data.UserRole;
 
 @Service
 public class ItemLogicImplementation implements ExtendedItemService {
     private ItemHandler itemHandler;
+    private UserHandler userHandler;
     private ObjectMapper jackson;
+    
+    
 
     @Autowired
-    public ItemLogicImplementation(ItemHandler itemHandler) {
+    public ItemLogicImplementation(ItemHandler itemHandler, UserHandler userHandler) {
         super();
         this.itemHandler = itemHandler;
+        this.userHandler = userHandler;
         this.jackson = new ObjectMapper();
 
     }
@@ -36,10 +44,15 @@ public class ItemLogicImplementation implements ExtendedItemService {
     @Override
     @Transactional
     public ItemBoundry createItem(String userSpace, String userEmail, ItemBoundry item) {
-        if (item.getType() == null) {
+    	Optional<UserEntity> user = userHandler.findById(userEmail);
+		if (!user.isPresent() || user.get().getRole() != UserRole.MANAGER.toString()) {
+			throw new UncheckedIOException("User " + userEmail + " is not premitted", null);
+		}
+    	
+        if (item.getType() == null || item.getType() == " ") {
             throw new RuntimeException("type attribute must not be null");
         }
-        if (item.getName() == null) {
+        if (item.getName() == null || item.getType() == " ") {
             throw new RuntimeException("name attribute must not be null");
         }
         //Books fromAPI = searchBook(item.getItemAttributes());
@@ -74,7 +87,11 @@ public class ItemLogicImplementation implements ExtendedItemService {
     @Override
     @Transactional
     public ItemBoundry updateItem(String userSpace, String userEmail, String itemSpace, String itemId, ItemBoundry update) {
-        Optional<ItemEntity> existing = this.itemHandler.findById(itemId);
+    	Optional<UserEntity> user = userHandler.findById(userEmail);
+		if (!user.isPresent() || user.get().getRole() != UserRole.MANAGER.toString()) {
+			throw new UncheckedIOException("User " + userEmail + " is not premitted", null);
+		}
+    	Optional<ItemEntity> existing = this.itemHandler.findById(itemId);
         if (existing.isPresent()) {
             update.setItemId(new ItemId(itemSpace, itemId));
             update.setCreatedBy(new CreatedBy(userSpace, userEmail));
@@ -106,12 +123,19 @@ public class ItemLogicImplementation implements ExtendedItemService {
     @Override
     @Transactional(readOnly = true) // handle race condition
     public List<ItemBoundry> getAllItems(String userSpace, String userEmail) {
-        Iterable<ItemEntity> allEntities = this.itemHandler.findAll();
+    	Optional<UserEntity> user = userHandler.findById(userEmail);
+		if (!user.isPresent() || 
+				(user.get().getRole() != UserRole.MANAGER.toString()
+				  && user.get().getRole() != UserRole.PLAYER.toString())) {
+			throw new UncheckedIOException("User " + userEmail + " is not premitted", null);
+		}
 
+        Iterable<ItemEntity> allEntities = this.itemHandler.findAll();
         List<ItemBoundry> rv = new ArrayList<>();
         for (ItemEntity entity : allEntities) {
-            ItemBoundry boundary = this.convertToBoundary(entity);
-            rv.add(boundary);
+        	if (entity.isActive() == true) {
+        		 ItemBoundry boundary = this.convertToBoundary(entity);
+                 rv.add(boundary);        	}
         }
         return rv;
     }
@@ -120,8 +144,15 @@ public class ItemLogicImplementation implements ExtendedItemService {
     @Override
     @Transactional(readOnly = true)
     public ItemBoundry getSpecificItem(String userSpace, String userEmail, String itemSpace, String itemId) {
+    	Optional<UserEntity> user = userHandler.findById(userEmail);
+		if (!user.isPresent() || 
+				(user.get().getRole() != UserRole.MANAGER.toString()
+				  && user.get().getRole() != UserRole.PLAYER.toString())) {
+			throw new UncheckedIOException("User " + userEmail + " is not premitted", null);
+		}
         Optional<ItemEntity> existing = this.itemHandler.findById(itemId);
-        if (existing.isPresent()) {
+        if(existing.get().isActive()==false) throw new UncheckedIOException("item is not active", null);
+        if (existing.isPresent() ) {
             ItemEntity entity = existing.get();
             return this.convertToBoundary(entity);
         } else {

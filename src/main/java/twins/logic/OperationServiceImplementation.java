@@ -1,9 +1,14 @@
 package twins.logic;
 import twins.boundaries.*;
 import twins.data.*;
+
+import java.io.UncheckedIOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
+
+import javax.naming.NoPermissionException;
 
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,16 +21,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class OperationServiceImplementation implements OperationsService{
+public class OperationServiceImplementation implements OperationsService {
 
 	private OperationHandler operationHandler;
+	private UserHandler userHandler;
 	private OperationEntity operationInvoked;
 	private ObjectMapper jackson;
 		
 	@Autowired	
-	public OperationServiceImplementation(OperationHandler operationHandler) {
+	public OperationServiceImplementation(OperationHandler operationHandler, UserHandler userHandler) {
 		super();
 		this.operationHandler = operationHandler;
+		this.userHandler = userHandler;
 		this.setOperationInvoked(null);
 		this.jackson = new ObjectMapper();
 		
@@ -35,10 +42,15 @@ public class OperationServiceImplementation implements OperationsService{
 	@Override
 	@Transactional
 	public Object invokeOperation(OperationBoundary operation) {
-		if (operation == null || operation.getItem().getType() != null || operation.getType() != null)
+	 	Optional<UserEntity> user = userHandler.findById(operation.getInvokedBy().getUserId().getEmail());
+		if (!user.isPresent() || 
+			user.get().getRole() != UserRole.PLAYER.toString()) {
+			throw new UncheckedIOException("User " + operation.getInvokedBy().getUserId().getEmail() + " is not premitted", null);
+		}
+		if (operation == null  || operation.getType() != null || operation.getType() != " ")
 			throw new RuntimeException("Operations attributes must not be null");
-		operation.setInvokedBy(operation.getOperationId().getSpace(), operation.getOperationId().getId());
 		OperationEntity entity = this.convertToEntity(operation);
+        if(entity.getItem().isActive()==false) throw new UncheckedIOException("item is not active", null);
 		entity.setId(UUID.randomUUID().toString());
 		entity.setCreatedTimestamp(new Date());
 		this.setOperationInvoked(entity);
@@ -50,11 +62,17 @@ public class OperationServiceImplementation implements OperationsService{
 	@Override
 	@Transactional 
 	public OperationBoundary invokeAsynchronous(OperationBoundary operation) { // SAME AS  INVOKE OPERATION????
+		Optional<UserEntity> user = userHandler.findById(operation.getInvokedBy().getUserId().getEmail());
+		if (!user.isPresent() || 
+			user.get().getRole() != UserRole.PLAYER.toString()) {
+			throw new UncheckedIOException("User " + operation.getInvokedBy().getUserId().getEmail() + " is not premitted", null);
+		}
 		if (operation == null)
 			throw new RuntimeException("Operation attribute must not be null");
 		operation.setInvokedBy(operation.getOperationId().getSpace(), operation.getOperationId().getId());
 		operation.setInvokedBy(operation.getOperationId().getSpace(), operation.getOperationId().getId());
 		OperationEntity entity = this.convertToEntity(operation);
+        if(entity.getItem().isActive()==false) throw new UncheckedIOException("item is not active", null);
 		entity.setId(UUID.randomUUID().toString());
 		entity.setCreatedTimestamp(new Date());
 		this.setOperationInvoked(entity);
@@ -67,6 +85,10 @@ public class OperationServiceImplementation implements OperationsService{
 	@Override
 	@Transactional(readOnly = true)
 	public List<OperationBoundary> getAllOperations(String adminSpace, String adminEmail) {
+		Optional<UserEntity> user = userHandler.findById(adminEmail);
+		if (!user.isPresent() || user.get().getRole() != UserRole.ADMIN.toString()) {
+			throw new UncheckedIOException("User " + adminEmail + " is not premitted", null);
+		}
 		Iterable<OperationEntity> allOperations = this.operationHandler.findAll();
 		List<OperationBoundary> lst = new ArrayList<>();
 		
@@ -81,8 +103,13 @@ public class OperationServiceImplementation implements OperationsService{
 
 	@Override
 	@Transactional
-	public void deleteAllOperations(String adminSpace, String adminEmail) {
+	public void deleteAllOperations(String adminSpace, String adminEmail)  {
+		Optional<UserEntity> user = userHandler.findById(adminEmail);
+		if (!user.isPresent() || user.get().getRole() != UserRole.ADMIN.toString()) {
+			throw new UncheckedIOException("User " + adminEmail + " is not premitted", null);
+		}
 		this.operationHandler.deleteAll();
+		
 	}
 	
 	private OperationBoundary convertToBoundary(OperationEntity operation) {
@@ -92,7 +119,7 @@ public class OperationServiceImplementation implements OperationsService{
 		boundary.setItem(operation.getItem());
 		boundary.setCreatedTimestamp(operation.getCreatedTimestamp());
 		boundary.setInvokedBy(operation.getSpace(), operation.getEmail());
-		boundary.setItemAttributes(this.unmarshall(operation.getItemAttributes(), HashMap.class));
+		boundary.setOperationAttributes(this.unmarshall(operation.getOperationAttributes(), HashMap.class));
 		boundary.setType(operation.getType());
 		return boundary;
 	}
@@ -105,7 +132,7 @@ public class OperationServiceImplementation implements OperationsService{
 		}
 		entity.setItem(boundary.getItem());
 		entity.setCreatedTimestamp(boundary.getCreatedTimestamp());
-		entity.setItemAttributes(this.marshall(boundary.getItemAttributes()));
+		entity.setOperationAttributes(this.marshall(boundary.getOperationAttributes()));
 		entity.setType(boundary.getType());
 		entity.setEmail(boundary.getInvokedBy().getUserId().getEmail());
 		return entity;

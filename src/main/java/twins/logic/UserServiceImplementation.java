@@ -8,6 +8,7 @@ import twins.data.UserHandler;
 import twins.data.UserEntity;
 import twins.data.UserRole;
 
+import java.io.UncheckedIOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -30,6 +31,7 @@ public class UserServiceImplementation implements UsersService {
     @Override
     @Transactional
     public UserBoundary createUser(UserBoundary user) {
+    	
         if (user == null) {
             throw new RuntimeException("User must not be null");
         }
@@ -38,7 +40,8 @@ public class UserServiceImplementation implements UsersService {
             if (!checkDup(userEntity)) {
                 userEntity.setCurrentTimestamp(new Date());
                 serviceHandler.save(userEntity);
-                return user;
+                UserBoundary userBoundary = convertToBoundary(userEntity);
+                return userBoundary;
             }
         }
         throw new RuntimeException("Cannot create user, check all attributes are correct");
@@ -109,6 +112,11 @@ public class UserServiceImplementation implements UsersService {
     @Override
     @Transactional(readOnly = true)
     public List<UserBoundary> getAllUsers(String adminSpace, String adminEmail) {
+    	Optional<UserEntity> user = serviceHandler.findById(adminEmail);
+		if (!user.isPresent() || user.get().getRole() != UserRole.ADMIN.toString()) {
+			throw new UncheckedIOException("User " + adminEmail + " is not premitted", null);
+		}
+
         Iterable<UserEntity> allEntities = this.serviceHandler.findAll();
         List<UserBoundary> rv = new ArrayList<>();
         for (UserEntity entity : allEntities) {
@@ -121,6 +129,10 @@ public class UserServiceImplementation implements UsersService {
     @Override
     @Transactional
     public void deleteAllUsers(String adminSpace, String adminEmail) {
+    	Optional<UserEntity> user = serviceHandler.findById(adminEmail);
+		if (!user.isPresent() || user.get().getRole() != UserRole.ADMIN.toString()) {
+			throw new UncheckedIOException("User " + adminEmail + " is not premitted", null);
+		}
         serviceHandler.deleteAll();
     }
 

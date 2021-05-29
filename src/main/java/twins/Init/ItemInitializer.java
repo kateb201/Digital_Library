@@ -90,7 +90,7 @@ public class ItemInitializer implements CommandLineRunner{
 		}
 		
 	    private ItemBoundry insertVolumeInfoToItemAttr(ItemBoundry item, Items[] volumeInfo, int index) {
-	    	ItemLogicImplementation itemlog = new ItemLogicImplementation(null);
+	    	ItemLogicImplementation itemlog = new ItemLogicImplementation(null, null);
 	        Map<String, Object> itemAttr = itemlog.unmarshall(itemlog.marshall(volumeInfo[index]), Map.class);
 	        item.setItemAttributes(itemAttr);
 	        item.setName((String) itemAttr.get("Title"));
