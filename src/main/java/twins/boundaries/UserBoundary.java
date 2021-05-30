@@ -2,8 +2,9 @@ package twins.boundaries;
 
 public class UserBoundary {
 
+    
+    private UserId userId;
     private String username;
-    private String email;
     private String role;
     private String avatar;
 
@@ -12,12 +13,24 @@ public class UserBoundary {
 
     public UserBoundary(String username, String email, String role, String avatar) {
         this.username = username;
-        this.email = email;
+        //this.email = email;
+        this.userId.email = email;
+        this.userId.space = "2021b.katya.boyko";
         this.role = role;
         this.avatar = avatar;
     }
+    
+    
 
-    public String getAvatar() {
+    public UserId getUserId() {
+		return userId;
+	}
+
+	public void setUserId(UserId userId) {
+		this.userId = userId;
+	}
+
+	public String getAvatar() {
         return avatar;
     }
 
@@ -25,9 +38,9 @@ public class UserBoundary {
         return role;
     }
 
-    public String getEmail() {
-        return email;
-    }
+//    public String getEmail() {
+//        return email;
+//    }
 
     public String getUsername() {
         return username;
@@ -41,9 +54,9 @@ public class UserBoundary {
         this.role = role;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+//    public void setEmail(String email) {
+//        this.email = email;
+//    }
 
     public void setUsername(String username) {
         this.username = username;

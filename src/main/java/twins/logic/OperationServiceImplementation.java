@@ -54,6 +54,27 @@ public class OperationServiceImplementation implements OperationsService {
 		entity.setId(UUID.randomUUID().toString());
 		entity.setCreatedTimestamp(new Date());
 		this.setOperationInvoked(entity);
+		switch (operation.getType()) {
+		case "searchBySubject":
+			String subject = (String) operation.getOperationAttributes().get("subject");
+			Integer size = (Integer) operation.getOperationAttributes().get("size");
+			Integer page = (Integer) operation.getOperationAttributes().get("page");
+			if(size == null) {
+				size = 20;
+			}
+			if (page == null) {
+				page = 0;
+			}
+			if (subject == null) {
+				throw new RuntimeException("Operations attributes must contain subject");
+			}
+			/*save entity in dataBase*/
+			/* return itemBoundry[] */
+			break;
+
+		default:
+			break;
+		}
 		entity = this.operationHandler.save(entity);
 		return this.convertToBoundary(entity);
 	}

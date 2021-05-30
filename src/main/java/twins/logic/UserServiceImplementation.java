@@ -56,7 +56,7 @@ public class UserServiceImplementation implements UsersService {
         if (user.getUsername().equals("") || user.getUsername() == null) {
             throw new RuntimeException("User name not valid");
         }
-        if (user.getEmail() == null || !assertEmail(user.getEmail())) {
+        if (user.getUserId().getEmail() == null || !assertEmail(user.getUserId().getEmail())) {
             throw new RuntimeException("Email not valid");
         }
         if (user.getAvatar().equals("") || user.getAvatar() == null) {
@@ -99,7 +99,7 @@ public class UserServiceImplementation implements UsersService {
     public UserBoundary updateUser(String userSpace, String userEmail, UserBoundary update) {
         Optional<UserEntity> existing = this.serviceHandler.findById(userEmail);
         if (existing.isPresent()) {
-            update.setEmail(userEmail);
+            update.getUserId().setEmail(userEmail);
             UserEntity updatedEntity = this.convertToEntity(update);
             updatedEntity.setCurrentTimestamp(existing.get().getCurrentTimestamp());
             this.serviceHandler.save(updatedEntity);
@@ -137,7 +137,7 @@ public class UserServiceImplementation implements UsersService {
     }
 
     private UserEntity convertToEntity(UserBoundary boundary) {
-        return new UserEntity(boundary.getUsername(), boundary.getEmail(), boundary.getRole(), boundary.getAvatar());
+        return new UserEntity(boundary.getUsername(), boundary.getUserId().getEmail(), boundary.getRole(), boundary.getAvatar());
     }
 
 
