@@ -1,17 +1,21 @@
 package twins.controllers;
 
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import twins.boundaries.ItemBoundry;
 import twins.logic.ExtendedItemService;
 
-import java.util.List;
+
 
 @RestController
 public class ItemController {
@@ -61,11 +65,21 @@ public class ItemController {
     @RequestMapping(path = "/twins/items/{userSpace}/{userEmail}",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<ItemBoundry> getAllItem(@PathVariable("userSpace") String userSpace,
-                                        @PathVariable("userEmail") String userEmail) {
+    public ItemBoundry[] getAllItem(@PathVariable("userSpace") String userSpace,
+                                        @PathVariable("userEmail") String userEmail,
+                            			
+        @RequestParam(name="size", required = false, defaultValue = "20") int  size,
+        @RequestParam(name="page", required = false, defaultValue = "0") int page) {
         //get all Items
-        List<ItemBoundry> allItems = this.itemService.getAllItems(userSpace, userEmail);
-        return allItems;
+    	
+    	List<ItemBoundry> boundaries = this.itemService
+    			.getAllMessagesByTheUserSpace (userSpace, userEmail, size, page);
+    		
+    		return boundaries
+    			.toArray(new ItemBoundry[0]);
+    	
+        /*List<ItemBoundry> allItems = this.itemService.getAllItems(userSpace, userEmail);
+        return allItems;*/
     }
 
 }

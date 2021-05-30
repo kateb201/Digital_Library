@@ -11,11 +11,12 @@ import java.util.UUID;
 import org.springframework.transaction.annotation.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import twins.boundaries.Books;
 import twins.BooksAPI;
 import twins.boundaries.*;
 import twins.data.ItemEntity;
@@ -230,4 +231,19 @@ public class ItemLogicImplementation implements ExtendedItemService {
     public Books searchBook(Map<String, Object> details) {
         return BooksAPI.searchByTitle(details);//.block();
     }
+
+	  
+	  @Override
+	@Transactional(readOnly = true)
+	public List<ItemBoundry> getAllMessagesByTheUserSpace(String userSpace, String userEmail, int size, int page) {
+		List<ItemEntity> entities = this.itemHandler
+				.findAllBySpaceAndEmail(userSpace, userEmail, PageRequest.of(page, size, Direction.DESC, "id"));
+			
+			List<ItemBoundry> rv = new ArrayList<>();
+			for (ItemEntity entity : entities) {
+				rv.add(this.convertToBoundary(entity));
+			}
+			return rv;
+	}
+	 
 }
