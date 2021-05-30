@@ -8,6 +8,8 @@ import java.util.Map;
 import java.util.List;
 import java.util.Random;
 import javax.annotation.PostConstruct;
+
+import org.assertj.core.util.Arrays;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
@@ -46,12 +48,31 @@ public class ItemInitializer implements CommandLineRunner{
 			List<ItemBoundry> allBoundariesToPost = new ArrayList<>();
 			// first message
 			Map<String, Object> map = new HashMap<String, Object>();
-			List<String> subjects = new ArrayList<>();
-			subjects.add("HORROR");
-			subjects.add("FANTASY");
-			subjects.add("FICTION");
-			subjects.add("DRAMA");
-			subjects.add("COMPUTERS");
+			//"HORROR", "FANTASY", "FICTION", "DRAMA", "COMPUTERS"
+			String[] subjects = {"HORROR", "FANTASY", "FICTION", "DRAMA", "COMPUTERS"};
+			List<ItemBoundry> itemsSub = createSubItems(map, subjects);
+			for (int i = 0; i < itemsSub.size(); i++) {
+				Books fromAPI = searchBook(itemsSub.get(i).getItemAttributes());
+				for (int j = 0; j < Integer.parseInt(BooksAPI.MAX_RESULTS); j++) {
+					ItemBoundry item = new ItemBoundry();
+					item.setName("Book");
+					item.setType("Book");
+					item.setCreatedBy(new CreatedBy("2021b.katyaBoyko", "admin@admin.com"));
+					item = insertVolumeInfoToItemAttr(item, fromAPI.getItems(), j);
+					allBoundariesToPost.add(item);
+				}
+			}
+			
+			allBoundariesToPost // List<HelloBoundary>
+				.stream() // Stream<HelloBoundary>
+				.map(input -> restTemplate  // lambda expression
+							.postForObject(url, input, ItemBoundry.class)) // Stream<HelloBoundary>
+				.map(this::convertToJson)// use method reference and finally return Stream <String>
+				.forEach(System.err::println); // use method reference to print data and finish handling the stream
+		}
+		
+		private List<ItemBoundry> createSubItems(Map<String, Object> map, String[] subjects){
+			List<ItemBoundry> itemsSub = new ArrayList<>();
 			for(String val: subjects) {
 				ItemBoundry item = new ItemBoundry();
 				item.setName("Book");
@@ -60,24 +81,9 @@ public class ItemInitializer implements CommandLineRunner{
 				map.put("Subject", val);
 				item.setItemAttributes(map);
 				map.clear();
+				itemsSub.add(item);
 			}
-			ItemBoundry item = new ItemBoundry();
-			item.setName("Book");
-			item.setType("Book");
-			item.setCreatedBy(new CreatedBy("2021b.katyaBoyko", "admin@admin.com"));
-			map.put("Subject", subjects.get(0));
-			item.setItemAttributes(map);
-			Books fromAPI = searchBook(item.getItemAttributes());
-			allBoundariesToPost.add(item);
-			
-			
-			
-			allBoundariesToPost // List<HelloBoundary>
-				.stream() // Stream<HelloBoundary>
-				.map(input -> restTemplate  // lambda expression
-							.postForObject(url, input, ItemBoundry.class)) // Stream<HelloBoundary>
-				.map(this::convertToJson)// use method reference and finally return Stream <String>
-				.forEach(System.err::println); // use method reference to print data and finish handling the stream
+			return itemsSub;
 		}
 
 		private String convertToJson (Object object) {

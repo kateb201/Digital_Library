@@ -56,7 +56,6 @@ public class ItemLogicImplementation implements ExtendedItemService {
             throw new RuntimeException("name attribute must not be null");
         }
         //Books fromAPI = searchBook(item.getItemAttributes());
-        ItemEntity entity = null;
         //for (int i = 0; i < Integer.parseInt(BooksAPI.MAX_RESULTS); i++) {
         //    ItemBoundry new_item = (ItemBoundry) item.clone();
         //    new_item = insertVolumeInfoToItemAttr(new_item, fromAPI.getItems(), i); //set result from api to item attr.
@@ -67,7 +66,7 @@ public class ItemLogicImplementation implements ExtendedItemService {
         //    entity.setEmail(userEmail);
         //    entity = this.itemHandler.save(entity);
         //}
-        entity = this.convertToEntity(item);
+        ItemEntity entity = this.convertToEntity(item);
         entity.setId(UUID.randomUUID().toString());
         entity.setCreatedTimestamp(new Date());
         entity.setSpace(userSpace);

@@ -50,7 +50,7 @@ public class BooksAPI {
                 //.uri("?q=" + uri + "&maxResults=" + MAX_RESULTS)
                 //.retrieve()
                 //.bodyToMono(Books.class);
-        return rest.getForObject(BASE_URL + "?q=" + uri + "&maxResults=" + MAX_RESULTS, Books.class);        
+        return rest.getForObject(BASE_URL + "?q=" + uri + "&maxResults=" + MAX_RESULTS, Books.class); //NOT WORKING        
     }
 }
 
