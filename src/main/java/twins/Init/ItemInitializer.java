@@ -47,9 +47,9 @@ public class ItemInitializer implements CommandLineRunner{
 		public void run(String... args) throws Exception {
 			List<ItemBoundry> allBoundariesToPost = new ArrayList<>();
 			// first message
-			Map<String, Object> map = new HashMap<String, Object>();
+			Map<String, Object> map = new HashMap<String, Object>();//create new map every iteration
 			//"HORROR", "FANTASY", "FICTION", "DRAMA", "COMPUTERS"
-			String[] subjects = {"HORROR", "FANTASY", "FICTION", "DRAMA", "COMPUTERS"};
+			String[] subjects = {"horror", "fantasy", "fiction", "drama", "computers"};
 			List<ItemBoundry> itemsSub = createSubItems(map, subjects);
 			for (int i = 0; i < itemsSub.size(); i++) {
 				Books fromAPI = searchBook(itemsSub.get(i).getItemAttributes());
@@ -79,8 +79,8 @@ public class ItemInitializer implements CommandLineRunner{
 				item.setType("Book");
 				item.setCreatedBy(new CreatedBy("2021b.katyaBoyko", "admin@admin.com"));
 				map.put("Subject", val);
-				item.setItemAttributes(map);
-				map.clear();
+				item.setItemAttributes(new HashMap<>(map));
+				map.clear(); //create new map every iteration
 				itemsSub.add(item);
 			}
 			return itemsSub;
