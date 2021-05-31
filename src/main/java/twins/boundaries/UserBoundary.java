@@ -11,17 +11,15 @@ public class UserBoundary {
     public UserBoundary() {
     }
 
-    public UserBoundary(String username, String email, String role, String avatar) {
+    public UserBoundary(UserId userId, String role, String username, String avatar) {
+        this.userId = userId;
         this.username = username;
-        //this.email = email;
-        this.userId.email = email;
         this.userId.space = "2021b.katya.boyko";
         this.role = role;
         this.avatar = avatar;
     }
     
-    
-
+   
     public UserId getUserId() {
 		return userId;
 	}

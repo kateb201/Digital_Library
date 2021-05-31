@@ -49,10 +49,10 @@ public class ItemLogicImplementation implements ExtendedItemService {
     @Override
     @Transactional
     public ItemBoundry createItem(String userSpace, String userEmail, ItemBoundry item) {
-    	Optional<UserEntity> user = userHandler.findById(userEmail);
+    	/*Optional<UserEntity> user = userHandler.findById(userEmail);
 		if (!user.isPresent() || user.get().getRole() != UserRole.MANAGER.toString()) {
 			throw new UncheckedIOException("User " + userEmail + " is not premitted", null);
-		}
+		}*/
         if (item.getType() == null || item.getType() == " ") {
             throw new RuntimeException("type attribute must not be null");
         }

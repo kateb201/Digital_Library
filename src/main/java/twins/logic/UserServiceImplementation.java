@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import twins.boundaries.UserBoundary;
+import twins.boundaries.UserId;
 import twins.data.UserHandler;
 import twins.data.UserEntity;
 import twins.data.UserRole;
@@ -142,6 +143,6 @@ public class UserServiceImplementation implements UsersService {
 
 
     private UserBoundary convertToBoundary(UserEntity entity) {
-        return new UserBoundary(entity.getUsername(), entity.getEmail(), entity.getRole(), entity.getAvatar());
+        return new UserBoundary(new UserId(entity.getUserSpace(), entity.getEmail()), entity.getRole(), entity.getUsername(), entity.getAvatar());
     }
 }

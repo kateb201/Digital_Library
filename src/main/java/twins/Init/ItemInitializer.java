@@ -62,7 +62,7 @@ public class ItemInitializer implements CommandLineRunner {
 						true, new CreatedBy("2021b.katyaBoyko", "admin@admin.com"));
 				// item.setName("Book");
 				// item.setCreatedBy(new CreatedBy("2021b.katyaBoyko", "admin@admin.com"));
-				item = insertVolumeInfoToItemAttr(item, fromAPI.getItems()[j]);
+				item = insertVolumeInfoToItemAttr(item, fromAPI.getItems()[j], subjects[i]);
 				allBoundariesToPost.add(item);
 			}
 		}
@@ -96,8 +96,9 @@ public class ItemInitializer implements CommandLineRunner {
 		}
 	}
 
-	private ItemBoundry insertVolumeInfoToItemAttr(ItemBoundry item, Items volumeInfo) {
+	private ItemBoundry insertVolumeInfoToItemAttr(ItemBoundry item, Items volumeInfo, String subject) {
 		Map<String, Object> itemAttr = this.jackson.convertValue(volumeInfo.getVolumeInfo(), Map.class);
+		itemAttr.put("subject", subject);
 		item.setItemAttributes(itemAttr);
 		item.setName((String) itemAttr.get("title"));
 		return item;
