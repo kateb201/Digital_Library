@@ -97,12 +97,9 @@ public class ItemInitializer implements CommandLineRunner {
 	}
 
 	private ItemBoundry insertVolumeInfoToItemAttr(ItemBoundry item, Items volumeInfo) {
-		// Map<String, Object> itemAttr = unmarshall(marshall(volumeInfo[index]),
-		// Map.class);
-		ObjectMapper mapObject = new ObjectMapper();
-		Map<String, Object> itemAttr = mapObject.convertValue(volumeInfo, Map.class);
-		item.setItemAttributes((Map<String, Object>) itemAttr.get("volumeInfo"));
-		item.setName((String) itemAttr.get("Title"));
+		Map<String, Object> itemAttr = this.jackson.convertValue(volumeInfo.getVolumeInfo(), Map.class);
+		item.setItemAttributes(itemAttr);
+		item.setName((String) itemAttr.get("title"));
 		return item;
 	}
 
