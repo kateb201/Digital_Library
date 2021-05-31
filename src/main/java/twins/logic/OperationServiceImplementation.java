@@ -7,16 +7,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-
 import javax.naming.NoPermissionException;
-
 import org.springframework.transaction.annotation.Transactional;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import java.util.Date;
 import java.util.HashMap;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,26 +20,26 @@ public class OperationServiceImplementation implements OperationsService {
 
 	private OperationHandler operationHandler;
 	private UserHandler userHandler;
+	private ItemHandler itemHandler;
 	private OperationEntity operationInvoked;
 	private ObjectMapper jackson;
 		
 	@Autowired	
-	public OperationServiceImplementation(OperationHandler operationHandler, UserHandler userHandler) {
+	public OperationServiceImplementation(OperationHandler operationHandler, UserHandler userHandler, 
+			ItemHandler itemHandler) {
 		super();
 		this.operationHandler = operationHandler;
 		this.userHandler = userHandler;
 		this.setOperationInvoked(null);
-		this.jackson = new ObjectMapper();
-		
-		
-		}
+		this.jackson = new ObjectMapper();	
+	}
 	
 	@Override
 	@Transactional
 	public Object invokeOperation(OperationBoundary operation) {
 	 	Optional<UserEntity> user = userHandler.findById(operation.getInvokedBy().getUserId().getEmail());
-		if (!user.isPresent() || 
-			user.get().getRole() != UserRole.PLAYER.toString()) {
+		if (user.isPresent() == false || 
+			user.get().getRole().equals(UserRole.PLAYER.toString()) == false) {
 			throw new UncheckedIOException("User " + operation.getInvokedBy().getUserId().getEmail() + " is not premitted", null);
 		}
 		if (operation == null  || operation.getType() != null || operation.getType() != " ")
@@ -79,13 +74,17 @@ public class OperationServiceImplementation implements OperationsService {
 		return this.convertToBoundary(entity);
 	}
 
-
+	public List<ItemBoundry> searchBySubject(String subject, int size){
+		
+		return null;
+	}
+	
 	@Override
 	@Transactional 
 	public OperationBoundary invokeAsynchronous(OperationBoundary operation) { // SAME AS  INVOKE OPERATION????
 		Optional<UserEntity> user = userHandler.findById(operation.getInvokedBy().getUserId().getEmail());
-		if (!user.isPresent() || 
-			user.get().getRole() != UserRole.PLAYER.toString()) {
+		if (user.isPresent() == false || 
+			user.get().getRole().equals(UserRole.PLAYER.toString()) == false) {
 			throw new UncheckedIOException("User " + operation.getInvokedBy().getUserId().getEmail() + " is not premitted", null);
 		}
 		if (operation == null)
@@ -107,7 +106,7 @@ public class OperationServiceImplementation implements OperationsService {
 	@Transactional(readOnly = true)
 	public List<OperationBoundary> getAllOperations(String adminSpace, String adminEmail) {
 		Optional<UserEntity> user = userHandler.findById(adminEmail);
-		if (!user.isPresent() || user.get().getRole() != UserRole.ADMIN.toString()) {
+		if (user.isPresent() == false || user.get().getRole().equals(UserRole.ADMIN.toString()) == false) {
 			throw new UncheckedIOException("User " + adminEmail + " is not premitted", null);
 		}
 		Iterable<OperationEntity> allOperations = this.operationHandler.findAll();
@@ -126,7 +125,7 @@ public class OperationServiceImplementation implements OperationsService {
 	@Transactional
 	public void deleteAllOperations(String adminSpace, String adminEmail)  {
 		Optional<UserEntity> user = userHandler.findById(adminEmail);
-		if (!user.isPresent() || user.get().getRole() != UserRole.ADMIN.toString()) {
+		if (user.isPresent() == false || user.get().getRole().equals(UserRole.ADMIN.toString()) == false) {
 			throw new UncheckedIOException("User " + adminEmail + " is not premitted", null);
 		}
 		this.operationHandler.deleteAll();
@@ -183,6 +182,14 @@ public class OperationServiceImplementation implements OperationsService {
 
 	public void setOperationInvoked(OperationEntity operationInvoked) {
 		this.operationInvoked = operationInvoked;
+	}
+
+	public ItemHandler getItemHandler() {
+		return itemHandler;
+	}
+
+	public void setItemHandler(ItemHandler itemHandler) {
+		this.itemHandler = itemHandler;
 	}
 	
 
