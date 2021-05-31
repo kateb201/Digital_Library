@@ -43,7 +43,7 @@ public class ItemInitializer implements CommandLineRunner {
 	@PostConstruct
 	public void init() {
 		this.restTemplate = new RestTemplate();
-		this.url = "http://localhost:" + port + "/twins/items/2021b.katyaBoyko/admin@admin.com";
+		this.url = "http://localhost:" + port + "/twins/items/2021b.katya.boyko/manager@manager.ac.il";
 		this.jackson = new ObjectMapper();
 	}
 
@@ -58,8 +58,8 @@ public class ItemInitializer implements CommandLineRunner {
 		for (int i = 0; i < itemsSub.size(); i++) {
 			Books fromAPI = searchBook(itemsSub.get(i).getItemAttributes());
 			for (int j = 0; j < Integer.parseInt(BooksAPI.MAX_RESULTS); j++) {
-				ItemBoundry item = new ItemBoundry(new ItemId("2021b.katya", UUID.randomUUID().toString()), "Book",
-						true, new CreatedBy("2021b.katyaBoyko", "admin@admin.com"));
+				ItemBoundry item = new ItemBoundry(new ItemId("2021b.katya.boyko", UUID.randomUUID().toString()), "Book",
+						true, new CreatedBy("2021b.katya.boyko", "manager@manager.ac.il"));
 				// item.setName("Book");
 				// item.setCreatedBy(new CreatedBy("2021b.katyaBoyko", "admin@admin.com"));
 				item = insertVolumeInfoToItemAttr(item, fromAPI.getItems()[j], subjects[i]);
@@ -78,8 +78,8 @@ public class ItemInitializer implements CommandLineRunner {
 	private List<ItemBoundry> createSubItems(Map<String, Object> map, String[] subjects) {
 		List<ItemBoundry> itemsSub = new ArrayList<>();
 		for (String val : subjects) {
-			ItemBoundry item = new ItemBoundry(new ItemId("2021b.katya", UUID.randomUUID().toString()), "Book", true,
-					new CreatedBy("2021b.katyaBoyko", "admin@admin.com"));
+			ItemBoundry item = new ItemBoundry(new ItemId("2021b.katya.boyko", UUID.randomUUID().toString()), "Book", true,
+					new CreatedBy("2021b.katya.boyko", "manager@manager.ac.il"));
 			map.put("Subject", val);
 			item.setItemAttributes(new HashMap<>(map));
 			map.clear(); // create new map every iteration

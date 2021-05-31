@@ -49,10 +49,10 @@ public class ItemLogicImplementation implements ExtendedItemService {
     @Override
     @Transactional
     public ItemBoundry createItem(String userSpace, String userEmail, ItemBoundry item) {
-    	/*Optional<UserEntity> user = userHandler.findById(userEmail);
-		if (!user.isPresent() || user.get().getRole() != UserRole.MANAGER.toString()) {
+    	Optional<UserEntity> user = userHandler.findById(userEmail);
+		if (user.isPresent() == false|| user.get().getRole().equals(UserRole.MANAGER.toString()) == false) {
 			throw new UncheckedIOException("User " + userEmail + " is not premitted", null);
-		}*/
+		}
         if (item.getType() == null || item.getType() == " ") {
             throw new RuntimeException("type attribute must not be null");
         }
@@ -72,7 +72,7 @@ public class ItemLogicImplementation implements ExtendedItemService {
     @Transactional
     public ItemBoundry updateItem(String userSpace, String userEmail, String itemSpace, String itemId, ItemBoundry update) {
     	Optional<UserEntity> user = userHandler.findById(userEmail);
-		if (!user.isPresent() || user.get().getRole() != UserRole.MANAGER.toString()) {
+		if (user.isPresent() == false || user.get().getRole().equals(UserRole.MANAGER.toString()) == false) {
 			throw new UncheckedIOException("User " + userEmail + " is not premitted", null);
 		}
     	Optional<ItemEntity> existing = this.itemHandler.findById(itemId);
