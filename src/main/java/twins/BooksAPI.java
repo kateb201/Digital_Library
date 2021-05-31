@@ -5,6 +5,7 @@ import twins.boundaries.Books;
 
 import java.util.Map;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
 public class BooksAPI {
@@ -51,7 +52,8 @@ public class BooksAPI {
                 //.uri("?q=" + uri + "&maxResults=" + MAX_RESULTS)
                 //.retrieve()
                 //.bodyToMono(Books.class);
-        return rest.getForObject(BASE_URL + "?q=" + uri + "&maxResults=" + MAX_RESULTS + "&key="+API_KEY, Books.class); //NOT WORKING        
+        String url = BASE_URL + "?q=" + uri + "&maxResults=" + MAX_RESULTS;
+        return rest.getForObject(url, Books.class); //NOT WORKING        
     }
 }
 

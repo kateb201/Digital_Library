@@ -17,6 +17,7 @@ public class ItemBoundry implements Cloneable {
     public ItemBoundry() {
         this.createdTimestamp = new Date();
         this.itemAttributes = new HashMap<>();
+        this.type = "book";
     }
 
     public ItemBoundry(ItemId itemId, String name, boolean active, CreatedBy createdBy) {
@@ -25,6 +26,7 @@ public class ItemBoundry implements Cloneable {
         this.name = name;
         this.active = active;
         this.createdBy = createdBy;
+        
     }
 
     public Object clone() {
