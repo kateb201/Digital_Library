@@ -30,6 +30,7 @@ public class ItemLogicImplementation implements ExtendedItemService {
     private ItemHandler itemHandler;
     private UserHandler userHandler;
     private ObjectMapper jackson;
+    private ItemComponent itemComponent;
     
     
 
@@ -41,6 +42,11 @@ public class ItemLogicImplementation implements ExtendedItemService {
         this.jackson = new ObjectMapper();
 
     }
+    
+    @Override
+	public void doSomethingSepcificWithMessage(String id, String newValue) {
+		this.itemComponent.changeContent(id, newValue);
+   }
 
     @Override
     @Transactional
