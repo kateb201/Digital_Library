@@ -16,7 +16,6 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import twins.BooksAPI;
 import twins.boundaries.*;
 import twins.data.ItemEntity;
@@ -32,8 +31,7 @@ public class ItemLogicImplementation implements ExtendedItemService {
     private ObjectMapper jackson;
     private ItemComponent itemComponent;
     
-    
-
+   
     @Autowired
     public ItemLogicImplementation(ItemHandler itemHandler, UserHandler userHandler) {
         super();
@@ -52,27 +50,15 @@ public class ItemLogicImplementation implements ExtendedItemService {
     @Transactional
     public ItemBoundry createItem(String userSpace, String userEmail, ItemBoundry item) {
     	Optional<UserEntity> user = userHandler.findById(userEmail);
-		/*if (!user.isPresent() || user.get().getRole() != UserRole.MANAGER.toString()) {
+		if (!user.isPresent() || user.get().getRole() != UserRole.MANAGER.toString()) {
 			throw new UncheckedIOException("User " + userEmail + " is not premitted", null);
-		}*/
-    	
+		}
         if (item.getType() == null || item.getType() == " ") {
             throw new RuntimeException("type attribute must not be null");
         }
         if (item.getName() == null || item.getType() == " ") {
             throw new RuntimeException("name attribute must not be null");
         }
-        //Books fromAPI = searchBook(item.getItemAttributes());
-        //for (int i = 0; i < Integer.parseInt(BooksAPI.MAX_RESULTS); i++) {
-        //    ItemBoundry new_item = (ItemBoundry) item.clone();
-        //    new_item = insertVolumeInfoToItemAttr(new_item, fromAPI.getItems(), i); //set result from api to item attr.
-        //    entity = this.convertToEntity(new_item);
-        //    entity.setId(UUID.randomUUID().toString());
-        //    entity.setCreatedTimestamp(new Date());
-        //    entity.setSpace(userSpace);
-        //    entity.setEmail(userEmail);
-        //    entity = this.itemHandler.save(entity);
-        //}
         ItemEntity entity = this.convertToEntity(item);
         entity.setId(UUID.randomUUID().toString());
         entity.setCreatedTimestamp(new Date());
@@ -80,14 +66,6 @@ public class ItemLogicImplementation implements ExtendedItemService {
         entity.setEmail(userEmail);
         entity = this.itemHandler.save(entity);
         return this.convertToBoundary(entity);
-
-    }
-
-    private ItemBoundry insertVolumeInfoToItemAttr(ItemBoundry item, Items[] volumeInfo, int index) {
-        Map<String, Object> itemAttr = unmarshall(marshall(volumeInfo[index]), Map.class);
-        item.setItemAttributes(itemAttr);
-        item.setName((String) itemAttr.get("Title"));
-        return item;
     }
 
     @Override
@@ -146,7 +124,6 @@ public class ItemLogicImplementation implements ExtendedItemService {
         return rv;
     }
 
-
     @Override
     @Transactional(readOnly = true)
     public ItemBoundry getSpecificItem(String userSpace, String userEmail, String itemSpace, String itemId) {
@@ -197,7 +174,6 @@ public class ItemLogicImplementation implements ExtendedItemService {
         return entity;
     }
 
-
     private ItemBoundry convertToBoundary(ItemEntity entity) {
         ItemBoundry boundary = new ItemBoundry();
         boundary.setItemId(new ItemId(entity.getSpace(), entity.getId()));
@@ -238,7 +214,6 @@ public class ItemLogicImplementation implements ExtendedItemService {
         return BooksAPI.searchByTitle(details);//.block();
     }
 
-	  
 	  @Override
 	@Transactional(readOnly = true)
 	public List<ItemBoundry> getAllMessagesByTheUserSpace(String userSpace, String userEmail, int size, int page) {

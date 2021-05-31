@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
 public class BooksAPI {
-	private final static String API_KEY = "AIzaSyBRQAS2i152pxx-cKfUyzN_dbQjGw5iZ-k";
     final static String BASE_URL = "https://www.googleapis.com/books/v1/volumes";
     public final static String MAX_RESULTS = "10";
 
@@ -46,14 +45,8 @@ public class BooksAPI {
             }
 
         }
-        //uri.append("&key="+API_KEY);
-        //WebClient client = WebClient.create(BASE_URL);
-        //return client.get()
-                //.uri("?q=" + uri + "&maxResults=" + MAX_RESULTS)
-                //.retrieve()
-                //.bodyToMono(Books.class);
         String url = BASE_URL + "?q=" + uri + "&maxResults=" + MAX_RESULTS;
-        return rest.getForObject(url, Books.class); //NOT WORKING        
+        return rest.getForObject(url, Books.class);        
     }
 }
 

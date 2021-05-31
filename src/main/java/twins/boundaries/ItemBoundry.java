@@ -29,15 +29,6 @@ public class ItemBoundry implements Cloneable {
         
     }
 
-    public Object clone() {
-        try {
-            return super.clone();
-        } catch (CloneNotSupportedException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
     public ItemId getItemId() {
         return itemId;
     }
