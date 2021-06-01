@@ -7,13 +7,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 import java.util.Date;
 
-/*
-       USER_TABLE
-
-    EMAIL <PK>| USERNAME      | ROLE        | TIMESTAMP         | AVATAR              | SPACE
-===================================================================================================
-VARCHAR(255) | VARCHAR(255)  | VARCHAR(255)   | TIMESTAMP         | VARCHAR(255)     | VARCHAR(255)
- */
 
 @Document(collection = "User")
 public class UserEntity {
@@ -84,7 +77,6 @@ public class UserEntity {
 		return userSpace;
 	}
 	
-	@Value("${spring.application.name:2021b.twins}")
 	public void setUserSpace(String userSpace) {
 		this.userSpace = userSpace;
 	}

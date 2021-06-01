@@ -81,13 +81,5 @@ public class ItemController {
         /*List<ItemBoundry> allItems = this.itemService.getAllItems(userSpace, userEmail);
         return allItems;*/
     }
-    @RequestMapping(path = "/twins/items/{userSpace}/{userEmail}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public void doSomethingSepcificWithMessage (
-			@PathVariable("id") String id,
-			@RequestBody Map<String, Object> newValueWrapper) {
-		String newValue = newValueWrapper.get("newValue").toString();
-		this.itemService.doSomethingSepcificWithMessage(id, newValue);
-		
-	}
 
 }

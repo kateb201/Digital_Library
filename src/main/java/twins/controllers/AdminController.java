@@ -51,7 +51,7 @@ public class AdminController {
             produces = MediaType.APPLICATION_JSON_VALUE)
     public List<UserBoundary> getAllUsers(@PathVariable("userSpace") String userSpace,
             @PathVariable("userEmail") String userEmail) {
-    	//get all Items
+    	//get all Items	
     	List<UserBoundary> allUsers = this.userService.getAllUsers(userSpace, userEmail);
     	return allUsers;
     }

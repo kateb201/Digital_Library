@@ -11,7 +11,7 @@ public interface ItemsService {
     public ItemBoundry createItem(String userSpace, String userEmail, ItemBoundry item);
 
     public ItemBoundry updateItem(String userSpace, String userEmail, String itemSpace, String itemId, ItemBoundry update);
-
+ //   @Deprecated
     public List<ItemBoundry> getAllItems(String userSpace, String userEmail);
 
     public ItemBoundry getSpecificItem(String userSpace, String userEmail, String itemSpace, String itemId);
