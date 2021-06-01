@@ -108,9 +108,8 @@ public class ItemLogicImplementation implements ExtendedItemService {
     @Transactional(readOnly = true) // handle race condition
     public List<ItemBoundry> getAllItems(String userSpace, String userEmail) {
     	Optional<UserEntity> user = userHandler.findById(userEmail);
-		if (!user.isPresent() || 
-				(user.get().getRole() != UserRole.MANAGER.toString()
-				  && user.get().getRole() != UserRole.PLAYER.toString())) {
+		if (user.isPresent() == false || (user.get().getRole().equals(UserRole.MANAGER.toString()) == false
+				  && user.get().getRole().equals(UserRole.PLAYER.toString()) == false)) {
 			throw new UncheckedIOException("User " + userEmail + " is not premitted", null);
 		}
 
@@ -128,8 +127,8 @@ public class ItemLogicImplementation implements ExtendedItemService {
     @Transactional(readOnly = true)
     public ItemBoundry getSpecificItem(String userSpace, String userEmail, String itemSpace, String itemId) {
     	Optional<UserEntity> user = userHandler.findById(userEmail);
-		if (!user.isPresent() || (user.get().getRole() != UserRole.MANAGER.toString()
-				  && user.get().getRole() != UserRole.PLAYER.toString())) {
+		if (user.isPresent() == false || (user.get().getRole().equals(UserRole.MANAGER.toString()) == false
+				  && user.get().getRole().equals(UserRole.PLAYER.toString()) == false)) {
 			throw new UncheckedIOException("User " + userEmail + " is not premitted", null);
 		}
         Optional<ItemEntity> existing = this.itemHandler.findById(itemId);

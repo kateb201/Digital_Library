@@ -113,7 +113,7 @@ public class UserServiceImplementation implements UsersService {
     @Transactional(readOnly = true)
     public List<UserBoundary> getAllUsers(String adminSpace, String adminEmail) {
     	Optional<UserEntity> user = serviceHandler.findById(adminEmail);
-		if (!user.isPresent() || user.get().getRole() != UserRole.ADMIN.toString()) {
+		if (user.isPresent() == false || user.get().getRole().equals(UserRole.ADMIN.toString()) == false) {
 			throw new UncheckedIOException("User " + adminEmail + " is not premitted", null);
 		}
         Iterable<UserEntity> allEntities = this.serviceHandler.findAll();
@@ -129,7 +129,7 @@ public class UserServiceImplementation implements UsersService {
     @Transactional
     public void deleteAllUsers(String adminSpace, String adminEmail) {
     	Optional<UserEntity> user = serviceHandler.findById(adminEmail);
-		if (!user.isPresent() || user.get().getRole() != UserRole.ADMIN.toString()) {
+		if (user.isPresent() == false || user.get().getRole().equals(UserRole.ADMIN.toString()) == false) {
 			throw new UncheckedIOException("User " + adminEmail + " is not premitted", null);
 		}
         serviceHandler.deleteAll();
