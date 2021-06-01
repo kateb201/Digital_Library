@@ -10,7 +10,6 @@ import java.util.Date;
 public class OperationEntity {
 	@Id
 	private String id;
-	@Id
 	private String space;
 	private String email;
     private String type;
