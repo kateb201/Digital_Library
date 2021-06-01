@@ -10,7 +10,7 @@ public interface ExtendedItemService extends ItemsService{
 
     public Books searchBook(Map<String, Object> details);
 
-	public List<ItemBoundry> getAllMessagesByTheUserSpace(String userSpace, String userEmail, int size, int page);
+	public List<ItemBoundry> getAllItemsByTheUserSpace(String userSpace, String userEmail, int size, int page);
 
 	void doSomethingSepcificWithMessage(String id, String newValue);
 

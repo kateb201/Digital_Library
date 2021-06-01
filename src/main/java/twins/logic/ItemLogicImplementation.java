@@ -208,9 +208,9 @@ public class ItemLogicImplementation implements ExtendedItemService {
 
 	  @Override
 	@Transactional(readOnly = true)
-	public List<ItemBoundry> getAllMessagesByTheUserSpace(String userSpace, String userEmail, int size, int page) {
+	public List<ItemBoundry> getAllItemsByTheUserSpace(String userSpace, String userEmail, int size, int page) {
 		List<ItemEntity> entities = this.itemHandler
-				.findAllBySpaceAndEmail(userSpace, userEmail, PageRequest.of(page, size, Direction.DESC, "id"));
+				.findAllItemsBySpaceAndEmail(userSpace, userEmail, PageRequest.of(page, size, Direction.DESC, "id"));
 			
 			List<ItemBoundry> rv = new ArrayList<>();
 			for (ItemEntity entity : entities) {

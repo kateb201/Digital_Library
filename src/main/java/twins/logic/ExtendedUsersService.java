@@ -6,6 +6,6 @@ import twins.boundaries.UserBoundary;
 
 public interface ExtendedUsersService extends UsersService{
 
-	List<UserBoundary> getAllMessagesByTheName(String space, String email, int size, int page);
+	List<UserBoundary> getAllUsersByTheUserSpace(String userSpace, String userEmail, int size, int page);
 
 }

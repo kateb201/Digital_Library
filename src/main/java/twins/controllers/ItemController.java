@@ -71,7 +71,7 @@ public class ItemController {
         //get all Items
     	
     	List<ItemBoundry> boundaries = this.itemService
-    			.getAllMessagesByTheUserSpace (userSpace, userEmail, size, page);
+    			.getAllItemsByTheUserSpace (userSpace, userEmail, size, page);
     		
     		return boundaries
     			.toArray(new ItemBoundry[0]);

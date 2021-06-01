@@ -1,11 +1,16 @@
 package twins.logic;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import twins.boundaries.ItemBoundry;
 import twins.boundaries.UserBoundary;
 import twins.boundaries.UserId;
 import twins.data.UserHandler;
+import twins.data.ItemEntity;
 import twins.data.UserEntity;
 import twins.data.UserRole;
 import java.io.UncheckedIOException;
@@ -17,7 +22,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Service
-public class UserServiceImplementation implements UsersService {
+public class UserServiceImplementation implements ExtendedUsersService {
 
     private UserHandler serviceHandler;
     private final Pattern VALID_EMAIL_ADDRESS_REGEX =
@@ -141,4 +146,17 @@ public class UserServiceImplementation implements UsersService {
     private UserBoundary convertToBoundary(UserEntity entity) {
         return new UserBoundary(new UserId(entity.getUserSpace(), entity.getEmail()), entity.getRole(), entity.getUsername(), entity.getAvatar());
     }
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<UserBoundary> getAllUsersByTheUserSpace(String userSpace, String userEmail, int size, int page) {
+		List<UserEntity> entities = this.serviceHandler
+				.findAllUsersByUserSpace(userSpace, PageRequest.of(page, size, Direction.DESC, "id"));
+			
+			List<UserBoundary> rv = new ArrayList<>();
+			for (UserEntity entity : entities) {
+				rv.add(this.convertToBoundary(entity));
+			}
+			return rv;
+	}
 }

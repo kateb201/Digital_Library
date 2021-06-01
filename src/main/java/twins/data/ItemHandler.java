@@ -8,7 +8,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 public interface ItemHandler extends MongoRepository<ItemEntity, String>{
 
-	public List<ItemEntity> findAllBySpaceAndEmail(
+	public List<ItemEntity> findAllItemsBySpaceAndEmail(
 			@Param("space")String space,
 			@Param("email") String email, 
 			Pageable of);
