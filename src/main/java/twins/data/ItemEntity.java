@@ -57,7 +57,7 @@ public class ItemEntity {
 		public String getSpace() {
 			return space;
 		}
-		@Value("${spring.application.name:2021b.twins}")
+
 		public void setSpace(String space) {
 			this.space = space;
 		}
