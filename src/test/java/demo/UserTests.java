@@ -11,20 +11,19 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.web.client.RestTemplate;
 
-import twins.boundaries.ItemBoundry;
+import twins.boundaries.UserBoundary;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 
+public class UserTests {
 
-public class ItemTests {
-	
 	@Test
 	public void testContext() {
 		
 	}
 	
 	private int port;
-	private String url; // http://localhost:port/twins/items
+	private String url; // http://localhost:port/twins/users
 	private RestTemplate restTemplate;
 	
 	@LocalServerPort 
@@ -34,7 +33,7 @@ public class ItemTests {
 	
 	@PostConstruct
 	public void init() {
-		this.url = "http://localhost:" + this.port + "/twins/items";
+		this.url = "http://localhost:" + this.port + "/twins/users";
 		System.err.println(this.url);
 		this.restTemplate = new RestTemplate();
 	}
@@ -53,47 +52,47 @@ public class ItemTests {
 	}
 	
 	@Test 
-	public void testUpdateItemAndValidateTheDatabaseIsUpdated() throws Exception{
+	public void testUpdateUserAndValidateTheDatabaseIsUpdated() throws Exception {
 		// GIVEN the database contains a name
-		ItemBoundry existingItem = new ItemBoundry();
-		existingItem.setName("old name");
+		UserBoundary existingUser = new UserBoundary();
+		existingUser.setUsername("old username");
 		
-		existingItem = this.restTemplate
-			.postForObject(this.url, existingItem, ItemBoundry.class);
+		existingUser = this.restTemplate
+			.postForObject(this.url, existingUser, UserBoundary.class);
 		
-		ItemBoundry update = new ItemBoundry();
-		update.setName("new name");
+		UserBoundary update = new UserBoundary();
+		update.setUsername("new username");
 		this.restTemplate
-			.put(this.url + "/{userSpace}/{userEmail}/{itemSpace}/{itemId}", update, existingItem.getItemId());
+			.put(this.url + "/{userSpace}/{userEmail}", update, existingUser.getUserId());
 		
 		// THEN the database name is updated
 		assertThat(this.restTemplate
-				.getForObject(this.url + "/{userSpace}/{userEmail}/{itemSpace}/{itemId}", ItemBoundry.class, existingItem.getItemId())
-				.getName())
+				.getForObject(this.url + "/{userSpace}/{userEmail}", UserBoundary.class, existingUser.getUserId())
+				.getUsername())
 			
-				.isEqualTo(update.getName())
-				.isNotEqualTo(existingItem.getName());
+				.isEqualTo(update.getUsername())
+				.isNotEqualTo(existingUser.getUsername());
 	}
 	
 	
 
 	@Test 
-	public void testCreatedItemAndValidateTheDatabaseIsUpdated() throws Exception{
+	public void testCreatedUserAndValidateTheDatabaseIsUpdated() throws Exception {
 		
-		ItemBoundry newItem = new ItemBoundry();
-		newItem.setName("new item created to check");
-		newItem = this.restTemplate
-			.postForObject(this.url + "/{userSpace}/{userEmail}",newItem,  ItemBoundry.class);
+		UserBoundary newUser = new UserBoundary();
+		newUser.setUsername("new username to check ");
+		newUser = this.restTemplate
+			.postForObject(this.url ,newUser,  UserBoundary.class);
 		
 		
 		// THEN the database name is updated
 		assertThat(this.restTemplate
-				.getForObject(this.url + "/{userSpace}/{userEmail}/{itemSpace}/{itemId}", ItemBoundry.class, newItem.getItemId())
-				.getName());
+				.getForObject(this.url , UserBoundary.class, newUser.getUserId())
+				.getUsername());
 		
-		assertThat(newItem)
+		assertThat(newUser)
 				.isNotNull();
-		assertThat(newItem.getName())
+		assertThat(newUser.getUsername())
 				.isEqualTo("new item created to check");
 	}
 	
