@@ -56,7 +56,7 @@ public class ItemLogicImplementation implements ExtendedItemService {
         if (item.getType() == null || item.getType() == " ") {
             throw new RuntimeException("type attribute must not be null");
         }
-        if (item.getName() == null || item.getType() == " ") {
+        if (item.getName() == null || item.getName() == " ") {
             throw new RuntimeException("name attribute must not be null");
         }
         ItemEntity entity = this.convertToEntity(item);
@@ -128,8 +128,7 @@ public class ItemLogicImplementation implements ExtendedItemService {
     @Transactional(readOnly = true)
     public ItemBoundry getSpecificItem(String userSpace, String userEmail, String itemSpace, String itemId) {
     	Optional<UserEntity> user = userHandler.findById(userEmail);
-		if (!user.isPresent() || 
-				(user.get().getRole() != UserRole.MANAGER.toString()
+		if (!user.isPresent() || (user.get().getRole() != UserRole.MANAGER.toString()
 				  && user.get().getRole() != UserRole.PLAYER.toString())) {
 			throw new UncheckedIOException("User " + userEmail + " is not premitted", null);
 		}

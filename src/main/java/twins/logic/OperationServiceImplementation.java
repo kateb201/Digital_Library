@@ -38,12 +38,12 @@ public class OperationServiceImplementation implements OperationsService {
 	@Transactional
 	public Object invokeOperation(OperationBoundary operation) {
 	 	Optional<UserEntity> user = userHandler.findById(operation.getInvokedBy().getUserId().getEmail());
-		if (user.isPresent() == false || 
-			user.get().getRole().equals(UserRole.PLAYER.toString()) == false) {
+		if (user.isPresent() == false || user.get().getRole().equals(UserRole.PLAYER.toString()) == false) {
 			throw new UncheckedIOException("User " + operation.getInvokedBy().getUserId().getEmail() + " is not premitted", null);
 		}
-		if (operation == null  || operation.getType() != null || operation.getType() != " ")
+		if (operation == null  || operation.getType() == null || operation.getType() != " ") {
 			throw new RuntimeException("Operations attributes must not be null");
+		}
 		OperationEntity entity = this.convertToEntity(operation);
         if(entity.getItem().isActive()==false) throw new UncheckedIOException("item is not active", null);
 		entity.setId(UUID.randomUUID().toString());
@@ -83,12 +83,12 @@ public class OperationServiceImplementation implements OperationsService {
 	@Transactional 
 	public OperationBoundary invokeAsynchronous(OperationBoundary operation) { // SAME AS  INVOKE OPERATION????
 		Optional<UserEntity> user = userHandler.findById(operation.getInvokedBy().getUserId().getEmail());
-		if (user.isPresent() == false || 
-			user.get().getRole().equals(UserRole.PLAYER.toString()) == false) {
+		if (user.isPresent() == false || user.get().getRole().equals(UserRole.PLAYER.toString()) == false) {
 			throw new UncheckedIOException("User " + operation.getInvokedBy().getUserId().getEmail() + " is not premitted", null);
 		}
-		if (operation == null)
-			throw new RuntimeException("Operation attribute must not be null");
+		if (operation == null  || operation.getType() == null || operation.getType() != " ") {
+			throw new RuntimeException("Operations attributes must not be null");
+		}
 		operation.setInvokedBy(operation.getOperationId().getSpace(), operation.getOperationId().getId());
 		operation.setInvokedBy(operation.getOperationId().getSpace(), operation.getOperationId().getId());
 		OperationEntity entity = this.convertToEntity(operation);

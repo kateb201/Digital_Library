@@ -32,7 +32,6 @@ public class UserServiceImplementation implements UsersService {
     @Override
     @Transactional
     public UserBoundary createUser(UserBoundary user) {
-    	
         if (user == null) {
             throw new RuntimeException("User must not be null");
         }
@@ -117,7 +116,6 @@ public class UserServiceImplementation implements UsersService {
 		if (!user.isPresent() || user.get().getRole() != UserRole.ADMIN.toString()) {
 			throw new UncheckedIOException("User " + adminEmail + " is not premitted", null);
 		}
-
         Iterable<UserEntity> allEntities = this.serviceHandler.findAll();
         List<UserBoundary> rv = new ArrayList<>();
         for (UserEntity entity : allEntities) {
