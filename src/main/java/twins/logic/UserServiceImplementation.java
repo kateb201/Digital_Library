@@ -139,7 +139,6 @@ public class UserServiceImplementation implements UsersService {
         return new UserEntity(boundary.getUsername(), boundary.getUserId().getEmail(), boundary.getRole(), boundary.getAvatar());
     }
 
-
     private UserBoundary convertToBoundary(UserEntity entity) {
         return new UserBoundary(new UserId(entity.getUserSpace(), entity.getEmail()), entity.getRole(), entity.getUsername(), entity.getAvatar());
     }

@@ -29,7 +29,6 @@ public class UserController {
             consumes = MediaType.APPLICATION_JSON_VALUE)
     public UserBoundary createNewUser(@RequestBody UserBoundary input) {
         return userService.createUser(input);
-
     }
 
     @RequestMapping(path = "/twins/users/login/{userSpace}/{userEmail}",

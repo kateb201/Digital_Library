@@ -3,16 +3,13 @@ package twins.Init;
 import twins.BooksAPI;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
-import java.util.Random;
 import java.util.UUID;
 
 import javax.annotation.PostConstruct;
 
-import org.assertj.core.util.Arrays;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
@@ -25,7 +22,6 @@ import twins.boundaries.CreatedBy;
 import twins.boundaries.ItemBoundry;
 import twins.boundaries.Items;
 import twins.boundaries.ItemId;
-import twins.logic.*;
 
 @Component
 @Profile("initItems")
@@ -60,17 +56,15 @@ public class ItemInitializer implements CommandLineRunner {
 			for (int j = 0; j < Integer.parseInt(BooksAPI.MAX_RESULTS); j++) {
 				ItemBoundry item = new ItemBoundry(new ItemId("2021b.katya", UUID.randomUUID().toString()), "Book",
 						true, new CreatedBy("2021b.katya.boyko", "manager@manager.ac.il"));
-				// item.setName("Book");
-				// item.setCreatedBy(new CreatedBy("2021b.katyaBoyko", "admin@admin.com"));
 				item = insertVolumeInfoToItemAttr(item, fromAPI.getItems()[j], subjects[i]);
 				allBoundariesToPost.add(item);
 			}
 		}
 
-		allBoundariesToPost // List<HelloBoundary>
-				.stream() // Stream<HelloBoundary>
+		allBoundariesToPost // List<ItemBoundary>
+				.stream() // Stream<ItemBoundary>
 				.map(input -> restTemplate // lambda expression
-						.postForObject(url, input, ItemBoundry.class)) // Stream<HelloBoundary>
+						.postForObject(url, input, ItemBoundry.class)) // Stream<ItemBoundary>
 				.map(this::convertToJson)// use method reference and finally return Stream <String>
 				.forEach(System.err::println); // use method reference to print data and finish handling the stream
 	}

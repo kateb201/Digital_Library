@@ -4,9 +4,6 @@ import java.util.Date;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
-import org.springframework.beans.factory.annotation.Value;
-
-
 
 @Document(collection = "Item")
 public class ItemEntity {
@@ -114,8 +111,6 @@ public class ItemEntity {
 		public void setLng(double lng) {
 			this.lng = lng;
 		}
-
-		
 
 }
 

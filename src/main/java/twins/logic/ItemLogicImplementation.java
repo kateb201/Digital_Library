@@ -7,14 +7,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
-
 import org.springframework.transaction.annotation.Transactional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import twins.BooksAPI;
 import twins.boundaries.*;
@@ -31,20 +28,18 @@ public class ItemLogicImplementation implements ExtendedItemService {
     private ObjectMapper jackson;
     private ItemComponent itemComponent;
     
-   
     @Autowired
     public ItemLogicImplementation(ItemHandler itemHandler, UserHandler userHandler) {
         super();
         this.itemHandler = itemHandler;
         this.userHandler = userHandler;
         this.jackson = new ObjectMapper();
-
     }
     
     @Override
 	public void doSomethingSepcificWithMessage(String id, String newValue) {
 		this.itemComponent.changeContent(id, newValue);
-   }
+    }
 
     @Override
     @Transactional
@@ -145,7 +140,6 @@ public class ItemLogicImplementation implements ExtendedItemService {
     @Transactional
     public void deleteAllItems(String adminSpace, String adminEmail) {
         this.itemHandler.deleteAll();
-
     }
 
     private ItemEntity convertToEntity(ItemBoundry boundary) {
@@ -209,7 +203,7 @@ public class ItemLogicImplementation implements ExtendedItemService {
 
     @Override
     public Books searchBook(Map<String, Object> details) {
-        return BooksAPI.searchByTitle(details);//.block();
+        return BooksAPI.searchByTitle(details);
     }
 
 	  @Override

@@ -11,9 +11,7 @@ public class OperationBoundary {
     private Date  createdTimestamp;
     private InvokedBy invokedBy;
     private Map<String, Object> operationAttributes;
-	
-    
-   
+	  
     public OperationBoundary() {
         this.createdTimestamp = new Date();
         this.operationAttributes = new HashMap<>();

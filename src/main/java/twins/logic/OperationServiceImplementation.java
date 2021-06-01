@@ -5,18 +5,20 @@ import twins.data.*;
 import java.io.UncheckedIOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
-import javax.naming.NoPermissionException;
 import org.springframework.transaction.annotation.Transactional;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Date;
 import java.util.HashMap;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 @Service
-public class OperationServiceImplementation implements OperationsService {
+public class OperationServiceImplementation implements ExtendedOperationsService {
 
 	private OperationHandler operationHandler;
 	private UserHandler userHandler;
@@ -30,6 +32,7 @@ public class OperationServiceImplementation implements OperationsService {
 		super();
 		this.operationHandler = operationHandler;
 		this.userHandler = userHandler;
+		this.itemHandler = itemHandler;
 		this.setOperationInvoked(null);
 		this.jackson = new ObjectMapper();	
 	}
@@ -41,21 +44,21 @@ public class OperationServiceImplementation implements OperationsService {
 		if (user.isPresent() == false || user.get().getRole().equals(UserRole.PLAYER.toString()) == false) {
 			throw new UncheckedIOException("User " + operation.getInvokedBy().getUserId().getEmail() + " is not premitted", null);
 		}
-		if (operation == null  || operation.getType() == null || operation.getType() != " ") {
+		if (operation == null  || operation.getType() == null || operation.getType() == " ") {
 			throw new RuntimeException("Operations attributes must not be null");
 		}
 		OperationEntity entity = this.convertToEntity(operation);
-        if(entity.getItem().isActive()==false) throw new UncheckedIOException("item is not active", null);
 		entity.setId(UUID.randomUUID().toString());
 		entity.setCreatedTimestamp(new Date());
 		this.setOperationInvoked(entity);
+		entity = this.operationHandler.save(entity);
 		switch (operation.getType()) {
 		case "searchBySubject":
 			String subject = (String) operation.getOperationAttributes().get("subject");
 			Integer size = (Integer) operation.getOperationAttributes().get("size");
 			Integer page = (Integer) operation.getOperationAttributes().get("page");
 			if(size == null) {
-				size = 20;
+				size = 10;
 			}
 			if (page == null) {
 				page = 0;
@@ -63,20 +66,53 @@ public class OperationServiceImplementation implements OperationsService {
 			if (subject == null) {
 				throw new RuntimeException("Operations attributes must contain subject");
 			}
-			/*save entity in dataBase*/
-			/* return itemBoundry[] */
-			break;
-
+			List<ItemBoundry> resultBySub = searchBySubject(subject, size, page);
+			return resultBySub;
+		case "searchByName":
+			String name = (String)operation.getOperationAttributes().get("name");
+			Integer size2 = (Integer) operation.getOperationAttributes().get("size");
+			Integer page2 = (Integer) operation.getOperationAttributes().get("page");
+			if(size2 == null) {
+				size = 10;
+			}
+			if (page2 == null) {
+				page = 0;
+			}
+			if (name == null) {
+				throw new RuntimeException("Operations attributes must contain name");
+			}
+			List<ItemBoundry> resultByName = searchByName(name, size2, page2);
+			return resultByName;
 		default:
-			break;
+			return this.convertToBoundary(entity);
 		}
-		entity = this.operationHandler.save(entity);
-		return this.convertToBoundary(entity);
+	}
+	
+	@Override
+	public List<ItemBoundry> searchByName(String name, int size, int page) {
+		Iterable<ItemEntity> entities = this.itemHandler
+				.findByName(name, PageRequest.of(page, size, Direction.DESC, "id"));
+	    List<ItemBoundry> rv = new ArrayList<>();
+	    for (ItemEntity entity : entities) {
+	    	ItemBoundry boundary = this.convertToBoundaryItem(entity);
+	        rv.add(boundary);
+	    }
+	    return rv;
 	}
 
-	public List<ItemBoundry> searchBySubject(String subject, int size){
-		
-		return null;
+	public List<ItemBoundry> searchBySubject(String subject, int size, int page){
+		Iterable<ItemEntity> entities = this.itemHandler.findAll();
+		List<ItemBoundry> rv = new ArrayList<>();
+		List<ItemBoundry> resultBySub = new ArrayList<>();
+	    for (ItemEntity entity : entities) {
+	    	ItemBoundry boundary = this.convertToBoundaryItem(entity);
+	        rv.add(boundary);
+	    }
+	    for (ItemBoundry boundary : rv) {
+	    	if(boundary.getItemAttributes().containsValue(subject))
+	    		resultBySub.add(boundary);
+	    }
+		return resultBySub;
 	}
 	
 	@Override
@@ -101,7 +137,6 @@ public class OperationServiceImplementation implements OperationsService {
 		return this.convertToBoundary(entity);
 	}
 
-
 	@Override
 	@Transactional(readOnly = true)
 	public List<OperationBoundary> getAllOperations(String adminSpace, String adminEmail) {
@@ -119,7 +154,6 @@ public class OperationServiceImplementation implements OperationsService {
 		}
 		return lst;
 	}
-
 
 	@Override
 	@Transactional
@@ -143,6 +177,23 @@ public class OperationServiceImplementation implements OperationsService {
 		boundary.setType(operation.getType());
 		return boundary;
 	}
+	
+    private ItemBoundry convertToBoundaryItem(ItemEntity entity) {
+        ItemBoundry boundary = new ItemBoundry();
+        boundary.setItemId(new ItemId(entity.getSpace(), entity.getId()));
+        boundary.setType(entity.getType());
+        boundary.setName(entity.getName());
+        boundary.setActive(entity.isActive());
+        boundary.setCreatedTimestamp(entity.getCreatedTimestamp());
+        boundary.setCreatedBy(new CreatedBy(entity.getSpace(), entity.getEmail()));
+        boundary.setLocation(new Location(entity.getLat(), entity.getLng()));
+
+        String attributes = entity.getItemAttributes();
+        // use jackson for unmarshalling JSON --> Map
+        Map<String, Object> itemAttributesMap = this.unmarshall(attributes, Map.class);
+        boundary.setItemAttributes(itemAttributesMap);
+        return boundary;
+    }
 	
 	private OperationEntity convertToEntity(OperationBoundary boundary) {
 		OperationEntity entity = new OperationEntity();
@@ -191,7 +242,6 @@ public class OperationServiceImplementation implements OperationsService {
 	public void setItemHandler(ItemHandler itemHandler) {
 		this.itemHandler = itemHandler;
 	}
-	
 
 
 }

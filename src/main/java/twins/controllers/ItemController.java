@@ -15,8 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 import twins.boundaries.ItemBoundry;
 import twins.logic.ExtendedItemService;
 
-
-
 @RestController
 public class ItemController {
 
@@ -77,9 +75,6 @@ public class ItemController {
     		
     		return boundaries
     			.toArray(new ItemBoundry[0]);
-    	
-        /*List<ItemBoundry> allItems = this.itemService.getAllItems(userSpace, userEmail);
-        return allItems;*/
     }
 
 }

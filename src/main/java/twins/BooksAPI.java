@@ -1,18 +1,12 @@
 package twins;
-//import org.springframework.web.reactive.function.client.WebClient;
-//import reactor.core.publisher.Mono;
 import twins.boundaries.Books;
-
 import java.util.Map;
-
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
 public class BooksAPI {
     final static String BASE_URL = "https://www.googleapis.com/books/v1/volumes";
     public final static String MAX_RESULTS = "10";
 
-    //public static Mono<Books> searchByTitle(Map<String, Object> details) {
     public static Books searchByTitle(Map<String, Object> details) {
     	RestTemplate rest = new RestTemplate();
         //deal with map

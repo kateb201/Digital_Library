@@ -1,20 +1,10 @@
 package twins.data;
 
-
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 import twins.boundaries.*;
 import java.util.Date;
-//import java.util.HashMap;
-
-/*
- * OPERATIONS_TABLE
- * Id <PK>| Space | Type  | MESSAGE_TIMESTAMP | Item Attributes
- * VARCHAR(255) | VARCHAR(255) | VARCHAR(255) | TIMESTAMP | CLOB
- *  */
-
 
 @Document(collection = "Operation")
 public class OperationEntity {
@@ -40,7 +30,6 @@ public class OperationEntity {
 	public String getSpace() {
 		return space;
 	}
-	@Value("${spring.application.name:2021b.twins}")
 	public void setSpace(String space) {
 		this.space = space;
 	}

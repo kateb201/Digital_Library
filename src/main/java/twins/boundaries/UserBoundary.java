@@ -1,7 +1,6 @@
 package twins.boundaries;
 
 public class UserBoundary {
-
     
     private UserId userId;
     private String username;
@@ -9,6 +8,7 @@ public class UserBoundary {
     private String avatar;
 
     public UserBoundary() {
+    	
     }
 
     public UserBoundary(UserId userId, String role, String username, String avatar) {
@@ -19,7 +19,6 @@ public class UserBoundary {
         this.avatar = avatar;
     }
     
-   
     public UserId getUserId() {
 		return userId;
 	}
@@ -36,10 +35,6 @@ public class UserBoundary {
         return role;
     }
 
-//    public String getEmail() {
-//        return email;
-//    }
-
     public String getUsername() {
         return username;
     }
@@ -52,13 +47,8 @@ public class UserBoundary {
         this.role = role;
     }
 
-//    public void setEmail(String email) {
-//        this.email = email;
-//    }
-
     public void setUsername(String username) {
         this.username = username;
     }
-
 
 }
