@@ -150,6 +150,10 @@ public class UserServiceImplementation implements ExtendedUsersService {
 	@Override
 	@Transactional(readOnly = true)
 	public List<UserBoundary> getAllUsersByTheUserSpace(String userSpace, String userEmail, int size, int page) {
+		Optional<UserEntity> user = serviceHandler.findById(userEmail);
+		if (user.isPresent() == false || user.get().getRole().equals(UserRole.ADMIN.toString()) == false) {
+			throw new UncheckedIOException("User " + userEmail + " is not premitted", null);
+		}
 		List<UserEntity> entities = this.serviceHandler
 				.findAllUsersByUserSpace(userSpace, PageRequest.of(page, size, Direction.DESC, "id"));
 			
